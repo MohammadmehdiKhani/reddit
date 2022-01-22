@@ -1,0 +1,9 @@
+{
+    "PORT": "3000",
+    "DB_URL": "mongodb://localhost:27017/reddit-db",
+    "APP_KEY": "MM.K",
+    "SUPERUSER": {
+        "USERNAME": "Mohammadmehdi",
+        "PASSWORD": "12345"
+    }
+}

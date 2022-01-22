@@ -1,0 +1,18 @@
+# Optional npm cache directory
+.npm
+
+# Dependency directories
+node_modules/
+node_modules/*
+
+# Logs
+logs
+*.log
+
+# VsCode setting
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
