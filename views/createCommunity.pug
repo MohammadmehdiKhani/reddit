@@ -1,0 +1,18 @@
+extends layout.pug 
+
+block content
+    div.row.justify-content-center.mt-5
+        div.col-6.p-5.bg-light.border
+            h3.mb-5 Community 
+            div.bg-danger.mb-3 #{error}
+            form#createCommunity-frm(action="/communities/create" method="post")
+                div.mb-3
+                    label.form-label(for="communityName-ipt") Name
+                    input#communityName-ipt.form-control(type="text" name="communityName" value=communityName placeholder="For example news")
+                    div#communityName-fdbErr.invalid-feedback
+                div.mb-5
+                    label.mb-2(for="description-ipt") Description
+                    textarea#description-ipt.form-control(name="description" value=description placeholder="For example today is fun" rows="3")
+                    div#description-fdbErr.invalid-feedback
+                div.mt-3
+                    button#createCommunity-btn.btn.btn-primary(type='submit') Submit

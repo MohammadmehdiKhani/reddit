@@ -6,21 +6,36 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 5,
-        maxlength: 50
+        maxlength: 100
     },
     password: {
         type: String,
         required: true,
         minlength: 5,
-        maxlength: 500
+        maxlength: 100
     },
-    role: {
+    email: {
         type: String,
         required: true,
-        enum: ["user", "admin"],
-        default: "user"
+        minlength: 5,
+        maxlength: 100
     },
+    memberOfIds: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Community",
+        default: new Array()
+    }],
+    adminOfIds: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Community",
+        default: new Array()
+    }],
     likedPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+        default: new Array()
+    }],
+    dislikedPosts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",
         default: new Array()
@@ -32,9 +47,9 @@ const User = mongoose.model("User", userSchema);
 
 function validateUser(user) {
     const schema = Joi.object({
-        username: Joi.string().min(5).max(50).required(),
-        password: Joi.string().min(5).max(500).required(),
-        role: Joi.string().required().valid("user", "admin"),
+        username: Joi.string().min(5).max(100).required(),
+        password: Joi.string().min(5).max(100).required(),
+        email: Joi.string().min(5).max(100).required()
     });
     return schema.validate(user);
 }

@@ -1,7 +1,7 @@
-doctype html
-html(lang="en")
-    head 
-        title Reddit
-    body 
-        h1 #{Title}
-        h2 #{Subtitle}
+extends layout.pug 
+
+block content 
+    div.row.justify-content-end
+        div.align-self-end.col-3
+            label(for="myCommunities") My Communities
+            div#myCommunities.list-group

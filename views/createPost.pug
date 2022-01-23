@@ -1,0 +1,22 @@
+extends layout.pug 
+
+block content
+    div.row.justify-content-center.mt-5
+        div.col-6.p-5.bg-light.border
+            h2.mb-5 Post 
+            div.mb-3.bg-danger #{error}
+            form#createPost-frm(action="/posts/create" method="post" )
+                div.mb-3
+                    label.form-label(for="community") Community
+                    select#community-dpx.form-select(name="communityId")
+                        option(value="") Select community
+                    div#community-fdbErr.invalid-feedback
+                div.mb-3
+                    label.form-label(for="title") Title
+                    input#title-ipt.form-control(type="text" name="title" value=title placeholder="For example Today news")
+                    div#title-fdbErr.invalid-feedback
+                div.mb-5
+                    label.mb-2(for="body") Body
+                    textarea#body-tar.form-control(name="body" value=body placeholder="For example today is fun" rows="3")
+                    div#body-fdbErr.invalid-feedback
+                button#createPost-btn.btn.btn-primary(type="submit") Submit

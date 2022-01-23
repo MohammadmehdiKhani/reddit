@@ -1,0 +1,17 @@
+extends layout.pug 
+
+block content 
+    div.row.justify-content-center.mt-5
+        div.col-6.p-5.bg-light.border
+            h2.mb-5 Login  
+            div.mb-3.bg-danger #{error}
+            form#loginUser-frm(action="/users/login" method="post")
+                .mb-3
+                    label.form-label(for='username') Username
+                    input#username-ipt.form-control(type='text' name="username" value=username placeholder="For example Ali")
+                    div#username-fdbErr.invalid-feedback
+                .mb-3
+                    label.form-label(for='password') Password
+                    input#password-ipt.form-control(type='password' name="password" value=password placeholder="For example 123")
+                    div#password-fdbErr.invalid-feedback
+                button#loginUser-btn.btn.btn-primary(type='submit') Submit

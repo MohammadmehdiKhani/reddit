@@ -4,53 +4,49 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const { Post, validatePost } = require("../database/schema/postSchema");
-const { User, validateUser } = require("../database/schema/userSchema");
+const { Community, validateCommunity } = require("../database/schema/communitySchema");
 const debug = require("debug")("app:debug");
-//const authenticate = require("../middleware/authMid");
-const mongoose = require("mongoose");
+const auth = require("../middleware/authMiddle");
 
-router.get("/", async (req, res) => {
-    let countries = await Country.find({});
-    return res.status(200).send(countries);
+router.get("/create", auth, async (req, res) => {
+    return res.status(200).render("createPost");
 });
 
-router.post("/post", async (req, res) => {
+router.post("/create", auth, async (req, res) => {
     debug("===> POST /post");
     debug(`request body is`);
     debug(req.body);
 
     let request = {
         title: req.body.title,
-        body: req.body.body
+        body: req.body.body,
+        community: req.body.communityId,
+        postedBy: req.session.user._id
     };
 
-    const { error } = validateCreatePost(request);
-    if (error)
-        return res.status(400).send(error.details[0].message);
+    debug(request.postedBy)
+
+    const validationResult = validatePost(request);
+    if (validationResult.error) {
+        request.error = validationResult.error.details[0].message;
+        return res.render("createPost", request);
+    }
 
     let postToCreate = {
         title: request.title,
-        body: request.body
+        body: request.body,
+        community: request.community,
+        postedBy: request.postedBy
     };
-    const { error1 } = validatePost(postToCreate);
-    if (error1)
-        return res.status(400).send(error1.details[0].message);
+
     let createdPost = await Post.create(postToCreate);
 
-    let postDto = {
-        title: createdPost.name,
-        body: createdPost.body
-    }
+    let community = await Community.findOne({ _id: request.community });
+    let union = _.union(community.postIds, [createdPost._id]);
+    community.postIds = union;
+    await community.save();
 
-    return res.status(200).send(postDto);
+    return res.render("home");
 });
-
-function validateCreatePost(request) {
-    const schema = Joi.object({
-        title: Joi.string().required()
-    });
-
-    return schema.validate(request);
-}
 
 module.exports = router;

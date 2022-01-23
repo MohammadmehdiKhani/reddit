@@ -1,0 +1,45 @@
+doctype html
+html(lang="en")
+    head 
+        link(rel='stylesheet' href='/bootstrap/dist/css/bootstrap.css')
+        //- link(rel='stylesheet' href='/@fortawesome/fontawesome-free/css/all.css')
+        title Reddit
+    body 
+        nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+            .container-fluid
+                a.navbar-brand(href='/') 
+                    i.me-1.fab.fa-reddit
+                    span Reddit
+                ul.navbar-nav.me-5
+                    li.nav-item
+                        a.nav-link.nav-link(href='/posts/create')
+                            i.fas.fa-plus.me-2
+                            span Post  
+                    li.nav-item
+                        a.nav-link(href='/communities/create')
+                            i.fas.fa-plus.me-2
+                            span Community
+                    li.nav-item
+                        a.nav-link(href='/users/logout')
+                            i.fas.fa-power-off.me-2
+                            span Logout
+                form.d-flex
+                    input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
+                    button.btn.btn-outline-secondary(type='submit') Search
+                a.nav-link.nav-link(href='/user')
+                    i.fas.fa-user.me-2
+                    span Profile  
+        div.container
+            block content
+
+    script(src='/jquery/dist/jquery.js')
+    script(src='/bootstrap/dist/js/bootstrap.js')
+    script(src='/@fortawesome/fontawesome-free/js/all.js')
+    script(src='/js/common.js')
+    script(src='/js/createPost.js')
+    script(src='/js/createCommunity.js')
+    script(src='/js/createUser.js')
+    script(src='/js/loginUser.js')
+    //- script(src='/@fortawesome/fontawesome-free/js/brands.js')
+    //- script(src='/@fortawesome/fontawesome-free/js/solid.js')
+    //- script(src='/@fortawesome/fontawesome-free/js/fontawesome.js')

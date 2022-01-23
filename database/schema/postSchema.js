@@ -5,15 +5,31 @@ const postSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        minlength: 3,
+        minlength: 5,
         maxlength: 100
     },
     body: {
         type: String,
-        minlength: 3,
-        maxlength: 100
+        required: true,
+        minlength: 5,
+        maxlength: 1000
     },
-    likedBy: [{
+    postedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    community: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Community",
+        required: true,
+    },
+    likedBies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: new Array()
+    }],
+    dislikedBies: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         default: new Array()
@@ -24,8 +40,10 @@ const Post = mongoose.model("Post", postSchema);
 
 function validatePost(post) {
     const schema = Joi.object({
-        title: Joi.string().alphanum().min(3).max(100),
-        body: Joi.string().alphanum().min(3).max(100),
+        title: Joi.string().min(5).max(100).required(),
+        body: Joi.string().min(5).max(1000).required(),
+        postedBy: Joi.string().required(),
+        community: Joi.string().required()
     });
     return schema.validate(post);
 }

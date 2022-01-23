@@ -1,0 +1,21 @@
+extends layout.pug 
+
+block content 
+    div.row.justify-content-center.mt-5
+        div.col-6.p-5.bg-light.border
+            h2.mb-5 Register  
+            div.mb-3.bg-danger #{error}
+            form#createUser-frm(action="/users/create" method="post" novalidate)
+                .mb-3
+                    label.form-label(for="username-ipt") username
+                    input#username-ipt.form-control(type="username" name="username")
+                    div#username-fdbErr.invalid-feedback
+                .mb-3
+                    label.form-label(for="password-ipt") Password
+                    input#password-ipt.form-control(type="password" name="password")
+                    div#password-fdbErr.invalid-feedback
+                .mb-3
+                    label.form-label(for="email-ipt") Email
+                    input#email-ipt.form-control(type="email" name="email")
+                    div#email-fdbErr.invalid-feedback
+                button#createUser-btn.btn.btn-primary(type="submit") Submit
