@@ -16,7 +16,7 @@ $(document).on("click", ".btn-createPost", (event) => {
     })
 })
 
-
+/*
 $(document).ready(() => {
 
     let communitiesList = $("#myCommunities");
@@ -40,6 +40,19 @@ $(document).ready(() => {
         }
     })
 })
+*/
+
+// $(document).ready(() => {
+//     $.ajax({
+//         url: `/api/communities`,
+//         type: "GET",
+//         success: (returnedData) => {
+//             var myCommunities = returnedData;
+//         }
+//     })
+// })
+
+
 
 $(document).ready(() => {
 
@@ -62,3 +75,52 @@ $(document).ready(() => {
         }
     })
 })
+
+$(document).on("click", ".like-btn", (event) => {
+    let element = $(event.currentTarget);
+    let postId = getPostIdFromElement(element);
+    console.log(postId);
+})
+
+function getPostIdFromElement(element) {
+    let isRoot = element.hasClass("post");
+    let rootElement = isRoot == true ? element : element.closest(".post");
+    let postId = rootElement.data().id;
+    return postId;
+}
+
+function timeDifference(current, previous) {
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+        if ((elapsed / 1000) < 30) return ' just now';
+
+        return Math.round(elapsed / 1000) + ' seconds ago';
+    }
+
+    else if (elapsed < msPerHour) {
+        return Math.round(elapsed / msPerMinute) + ' minutes ago';
+    }
+
+    else if (elapsed < msPerDay) {
+        return Math.round(elapsed / msPerHour) + ' hours ago';
+    }
+
+    else if (elapsed < msPerMonth) {
+        return Math.round(elapsed / msPerDay) + ' days ago';
+    }
+
+    else if (elapsed < msPerYear) {
+        return Math.round(elapsed / msPerMonth) + ' months ago';
+    }
+
+    else {
+        return Math.round(elapsed / msPerYear) + ' years ago';
+    }
+}

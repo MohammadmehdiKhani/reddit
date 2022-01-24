@@ -1,7 +1,18 @@
-extends layout.pug 
+extends layout.pug
+include mixin
 
 block content 
-    div.row.justify-content-end
-        div.align-self-end.col-3
-            label(for="myCommunities") My Communities
+
+    div.row.mt-3
+        div.col-9
+            div#posts-lgp.list-group
+                +createPostsTemplate(posts)
+
+        div.col-3
+            label.p-2.bg-light.border(for="myCommunities") My Communities
             div#myCommunities.list-group
+                +createCommunityTemplate(myCommunities)
+            div.mt-3
+            label.p-2.bg-light.border(for="hotCommunities") Hot Communities
+            div#hotCommunities.list-group  
+                +createCommunityTemplate(hotCommunities)

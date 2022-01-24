@@ -12,21 +12,37 @@ html(lang="en")
                     span Reddit
                 ul.navbar-nav.me-5
                     li.nav-item
-                        a.nav-link.nav-link(href='/posts/create')
+                        a.nav-link(href='/posts/create')
                             i.fas.fa-plus.me-2
                             span Post  
                     li.nav-item
                         a.nav-link(href='/communities/create')
                             i.fas.fa-plus.me-2
                             span Community
-                    li.nav-item
-                        a.nav-link(href='/users/logout')
-                            i.fas.fa-power-off.me-2
-                            span Logout
                 form.d-flex
                     input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
                     button.btn.btn-outline-secondary(type='submit') Search
-                a.nav-link.nav-link(href='/user')
+
+                if(session)
+                    div.dropdown
+                        a#navbarDropdown.nav-link.dropdown-toggle(href='#' data-bs-toggle='dropdown' aria-expanded='false')
+                            | Settings
+                        ul.dropdown-menu(aria-labelledby='navbarDropdown')
+                            li
+                                a.dropdown-item(href='#') Change Username
+                            li
+                                a.dropdown-item(href='#') Change Email
+                            li
+                                a.dropdown-item(href='#') Change Password
+                            li
+                                a.dropdown-item(href='#') Change Theme
+                            li
+                                a.dropdown-item(href='#') Saved Posts
+                            li
+                                a.dropdown-item(href='/users/logout')
+                                    i.fas.fa-power-off.me-2
+                                    span Logout
+
                     i.fas.fa-user.me-2
                     span Profile  
         div.container

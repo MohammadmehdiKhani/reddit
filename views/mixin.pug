@@ -1,0 +1,25 @@
+mixin createPostsTemplate(posts)
+    each post in posts
+        a.post.p-4.list-group-item.list-group-item-action(href="#" data-id=`61edaad92c2181a5879de4d7`)
+            div.row.text-muted
+                small.col-4.mb-1= "Community: " + post.community.name
+                small.col-4= "Posted by: " + post.postedBy.username
+                small.col-4= post.createdAt
+            div.mt-3.h5= post.title   
+            div.mb-1= post.body
+            div.row.mt-4.justify-content-between
+                button.like-btn.btn.btn-outline-primary.col-3
+                    i.fas.fa-thumbs-up.me-2
+                    span Like  
+                button.btn.btn-outline-primary.col-3
+                    i.fas.fa-thumbs-down.me-2
+                    span DisLike 
+                button.btn.btn-outline-primary.col-3
+                    i.fas.fa-comment.me-2
+                    span Comment
+
+mixin createCommunityTemplate(communities)
+    each community in communities
+        - var name = community.name;
+        a.list-group-item.list-group-item-action(href='/communities/firstHotCommunity')= name
+

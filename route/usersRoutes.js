@@ -8,7 +8,7 @@ const { User, validateUser } = require("../database/schema/userSchema");
 const auth = require("../middleware/authMiddle");
 
 router.get("/create", (req, res) => {
-    return res.status(200).render("createUser");
+    return res.render("createUser");
 });
 
 router.post("/create", async (req, res) => {
@@ -35,7 +35,7 @@ router.post("/create", async (req, res) => {
     let createdUser = await User.create(request);
 
     req.session.user = createdUser;
-    return res.render("home");
+    return res.redirect("/");
 });
 
 router.get("/login", (req, res) => {
@@ -72,7 +72,8 @@ router.post("/login", async (req, res) => {
         return res.render("login", msg);
     }
     req.session.user = findedUser;
-    return res.render("home");
+    res.locals.session = req.session.user;
+    return res.redirect("/");
 });
 
 function validateLoginReq(request) {
@@ -90,6 +91,14 @@ router.get("/logout", async (req, res) => {
             res.redirect("/users/login");
         })
     }
+});
+
+router.get("/update", auth, async (req, res) => {
+    return res.render("manageUser");
+});
+
+router.put("/update", async (req, res) => {
+    //update username, password, ...
 });
 
 function validateRegisterReq(request) {

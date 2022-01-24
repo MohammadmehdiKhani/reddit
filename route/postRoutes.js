@@ -46,7 +46,7 @@ router.post("/create", auth, async (req, res) => {
     community.postIds = union;
     await community.save();
 
-    return res.render("home");
+    return res.redirect("/");
 });
 
 module.exports = router;

@@ -38,7 +38,7 @@ router.post("/create", auth, async (req, res) => {
     let union = _.union(findedUser.adminOfIds, [createdCommunity._id]);
     findedUser.adminOfIds = union;
     await findedUser.save();
-    return res.status(200).render("home");
+    return res.redirect("/");
 });
 
 function validateCreateCommunity(request) {

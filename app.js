@@ -11,6 +11,7 @@ const homeRoutes = require("./route/homeRounts");
 const userRoutes = require("./route/usersRoutes");
 const postRoutes = require("./route/postRoutes");
 const communityRoutes = require("./route/communityRoutes");
+const { json } = require("express/lib/response");
 
 const app = express();
 debug(app.get("env"));
@@ -25,6 +26,10 @@ app.use(session({
     resave: true,
     saveUninitialized: false
 }));
+app.use(function (req, res, next) {
+    res.locals.session = req.session.user;
+    next();
+});
 
 app.set("view engine", "pug");
 app.set("views", "views");
