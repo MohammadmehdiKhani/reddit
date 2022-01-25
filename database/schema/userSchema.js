@@ -53,6 +53,6 @@ function validateUser(user) {
     });
     return schema.validate(user);
 }
-
+userSchema.index({username: "text"}, { default_language: "none", match: "partial"})
 exports.User = User;
 exports.validateUser = validateUser;

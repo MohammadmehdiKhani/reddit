@@ -23,3 +23,20 @@ mixin createCommunityTemplate(communities)
         - var name = community.name;
         a.list-group-item.list-group-item-action(href='/communities/firstHotCommunity')= name
 
+mixin createWideCommunityTemplate(communities)
+    each community in communities
+        a.post.p-4.list-group-item
+            div.row.text-black
+                div.mt-2.h5=  "Community: " + community.name
+            div.row.text-muted
+                small.col-4.mb-1= "Created by: " + community.adminIds[0].username
+            div.row.text-black
+                div.mb-5= "Description: " + community.description
+            div.row.mt-4.justify-content-between
+                button.btn.btn-outline-primary.col-5
+                    i.fas.fa-eye.me-2
+                    span View
+                button.btn.btn-outline-primary.col-5
+                    i.fas.fa-plus-circle.me-2
+                    span Subscribe
+

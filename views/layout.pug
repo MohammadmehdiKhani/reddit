@@ -19,8 +19,8 @@ html(lang="en")
                         a.nav-link(href='/communities/create')
                             i.fas.fa-plus.me-2
                             span Community
-                form.d-flex
-                    input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
+                form.d-flex#search_bar(action="/search" method="get")
+                    input.form-control.me-2#search_bar_input(type='search' name="searchInput" placeholder='Search' aria-label='Search')
                     button.btn.btn-outline-secondary(type='submit') Search
 
                 if(session)
@@ -59,6 +59,7 @@ html(lang="en")
     script(src='/js/changeUsername.js')
     script(src='/js/changePassword.js')
     script(src='/js/changeEmail.js')
+    script(src='/js/search.js')
     //- script(src='/@fortawesome/fontawesome-free/js/brands.js')
     //- script(src='/@fortawesome/fontawesome-free/js/solid.js')
     //- script(src='/@fortawesome/fontawesome-free/js/fontawesome.js')

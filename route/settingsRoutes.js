@@ -105,7 +105,7 @@ router.post("/password", auth, async (req, res) => {
         } else {
 
             await User.findOneAndUpdate({username: req.session.user.username}, {password: req.body.newPassword})
-            request.success = `Password successfully changed!}`
+            request.success = `Password successfully changed!`
 
             req.session.user.password = req.body.newPassword;
             res.locals.session.password = req.body.newPassword;
@@ -125,46 +125,5 @@ router.post("/theme", auth, async (req, res) => {
     return res.status(200).render("changeTheme")
 });
 
-
-// router.get("/create", auth, async (req, res) => {
-//     return res.status(200).render("changeUsername");
-// });
-//
-// router.post("/create", auth, async (req, res) => {
-//     debug("===> POST /post");
-//     debug(`request body is`);
-//     debug(req.body);
-//
-//     let request = {
-//         title: req.body.title,
-//         body: req.body.body,
-//         community: req.body.communityId,
-//         postedBy: req.session.user._id
-//     };
-//
-//     debug(request.postedBy)
-//
-//     const validationResult = validatePost(request);
-//     if (validationResult.error) {
-//         request.error = validationResult.error.details[0].message;
-//         return res.render("createPost", request);
-//     }
-//
-//     let postToCreate = {
-//         title: request.title,
-//         body: request.body,
-//         community: request.community,
-//         postedBy: request.postedBy
-//     };
-//
-//     let createdPost = await Post.create(postToCreate);
-//
-//     let community = await Community.findOne({ _id: request.community });
-//     let union = _.union(community.postIds, [createdPost._id]);
-//     community.postIds = union;
-//     await community.save();
-//
-//     return res.redirect("/");
-// });
 
 module.exports = router;

@@ -1,0 +1,22 @@
+extends layout.pug
+include mixin
+
+block content
+
+    div.row.mt-3
+        div.col-8.mr-1
+            h2.mb-5= title
+            div#posts-lgp.list-group
+                +createWideCommunityTemplate(resultsCommunities)
+
+
+        div.col-3
+            if title==="Users"
+                h4.mb-5 Enough Results?
+                a.post(href="/search/?searchInput="+searchValue)
+                    div.mt-6.h6=  "Search \"" + searchValue + "\" among communities!"
+            else
+                h4.mb-5 More Results?
+                a.post(href="/search/users?searchInput="+searchValue)
+                    div.mt-6.h6=  "Search \"" + searchValue + "\" among users!"
+
