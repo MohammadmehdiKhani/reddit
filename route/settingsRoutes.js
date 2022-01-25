@@ -3,13 +3,17 @@ const router = express.Router();
 const Joi = require("joi");
 const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
-const { Post, validatePost } = require("../database/schema/postSchema");
-const { Community, validateCommunity } = require("../database/schema/communitySchema");
+const {User, validateUser} = require("../database/schema/userSchema");
+const {Post, validatePost} = require("../database/schema/postSchema");
+const {Community, validateCommunity} = require("../database/schema/communitySchema");
 const debug = require("debug")("app:debug");
 const auth = require("../middleware/authMiddle");
 
+
+// get requests
 router.get("/username", auth, async (req, res) => {
-   return res.status(200).render("changeUsername")
+    // let user = await User.findOne({ _id: req.session.user._id })
+    return res.status(200).render("changeUsername", {currentUsername: req.session.user.username})
 });
 
 router.get("/email", auth, async (req, res) => {
@@ -23,6 +27,51 @@ router.get("/password", auth, async (req, res) => {
 router.get("/theme", auth, async (req, res) => {
     return res.status(200).render("changeTheme")
 });
+
+
+// post requests
+router.post("/username", auth, async (req, res) => {
+
+    let request = {
+        username: req.body.newUsername,
+    };
+
+
+    let findedUser = await User.findOne({username: request.username});
+    if (findedUser) {
+        request.error = `User with username ${request.username} already exists`;
+        return res.render("changeUsername", {error: request.error, currentUsername: req.session.user.username});
+    }
+
+    try {
+        await User.findOneAndUpdate({username: req.session.user.username}, {username: request.username.trim()})
+        request.success = `Username successfully changed from ${req.session.user.username} to ${request.username}`
+
+        req.session.user.username = request.username.trim();
+        res.locals.session.username = request.username.trim();
+
+        console.log(auth)
+        return res.status(200).render("changeUsername", {success: request.success, currentUsername: request.username})
+
+    } catch (e) {
+        request.error = `Unexpected Error!`;
+        return res.render("changeUsername", {error: request.error, currentUsername: req.session.user.username});
+    }
+
+});
+
+router.post("/email", auth, async (req, res) => {
+    return res.status(200).render("changeEmail")
+});
+
+router.post("/password", auth, async (req, res) => {
+    return res.status(200).render("changePassword")
+});
+
+router.post("/theme", auth, async (req, res) => {
+    return res.status(200).render("changeTheme")
+});
+
 
 // router.get("/create", auth, async (req, res) => {
 //     return res.status(200).render("changeUsername");
