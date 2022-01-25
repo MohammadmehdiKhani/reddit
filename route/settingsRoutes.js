@@ -17,7 +17,7 @@ router.get("/username", auth, async (req, res) => {
 });
 
 router.get("/email", auth, async (req, res) => {
-    return res.status(200).render("changeEmail")
+    return res.status(200).render("changeEmail", {currentEmail: req.session.user.email})
 });
 
 router.get("/password", auth, async (req, res) => {
@@ -36,21 +36,21 @@ router.post("/username", auth, async (req, res) => {
         username: req.body.newUsername,
     };
 
-
-    let findedUser = await User.findOne({username: request.username});
-    if (findedUser) {
-        request.error = `User with username ${request.username} already exists`;
-        return res.render("changeUsername", {error: request.error, currentUsername: req.session.user.username});
-    }
-
     try {
+
+        let findedUser = await User.findOne({username: request.username});
+        if (findedUser) {
+            request.error = `User with username ${request.username} already exists`;
+            return res.render("changeUsername", {error: request.error, currentUsername: req.session.user.username});
+        }
+
+
         await User.findOneAndUpdate({username: req.session.user.username}, {username: request.username.trim()})
         request.success = `Username successfully changed from ${req.session.user.username} to ${request.username}`
 
         req.session.user.username = request.username.trim();
         res.locals.session.username = request.username.trim();
 
-        console.log(auth)
         return res.status(200).render("changeUsername", {success: request.success, currentUsername: request.username})
 
     } catch (e) {
@@ -61,7 +61,34 @@ router.post("/username", auth, async (req, res) => {
 });
 
 router.post("/email", auth, async (req, res) => {
-    return res.status(200).render("changeEmail")
+    let request = {
+        email: req.body.newEmail,
+    };
+
+    try {
+
+        console.log(request)
+
+        var new_email_trimmed = request.email.trim();
+
+        let findedEmail = await User.findOne({email: new_email_trimmed});
+        if (findedEmail) {
+            request.error = `Email with email ${new_email_trimmed} already exists`;
+            return res.render("changeEmail", {error: request.error, currentEmail: req.session.user.email});
+        }
+
+        await User.findOneAndUpdate({email: req.session.user.email}, {email: new_email_trimmed})
+        request.success = `Email successfully changed from ${req.session.user.email} to ${new_email_trimmed}`
+
+        req.session.user.email = new_email_trimmed;
+        res.locals.session.email = new_email_trimmed;
+
+        return res.status(200).render("changeEmail", {success: request.success, currentEmail: new_email_trimmed})
+
+    } catch (e) {
+        request.error = `Unexpected Error!` + e;
+        return res.render("changeEmail", {error: request.error, currentEmail: req.session.user.email});
+    }
 });
 
 router.post("/password", auth, async (req, res) => {
