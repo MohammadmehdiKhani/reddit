@@ -10,7 +10,7 @@ const auth = require("../middleware/authMiddle");
 router.get("/", auth, async (req, res) => {
 
     let search_value = req.query["searchInput"].trim()
-    console.log(search_value)
+    // console.log(search_value)
 
     try {
 
@@ -18,12 +18,11 @@ router.get("/", auth, async (req, res) => {
             "$or": [{name: new RegExp(search_value, 'i')}, {description: new RegExp(search_value, 'i')}]
         })
 
-        console.log(communities)
-
         return res.render("searchPage", {
             searchValue: search_value,
             title: "Communities",
-            resultsCommunities: communities
+            results: communities,
+            isEmpty: communities.length === 0
         })
 
     } catch (e) {
@@ -46,8 +45,9 @@ router.get("/users", auth, async (req, res) => {
         //     {score: {$meta: "textScore"}}
         // );
         var users = await User.find({username: new RegExp(search_value, 'i')})
-        console.log(users)
-        return res.render("searchPage", {searchValue: search_value, title: "Users"})
+        return res.render("searchPage", {
+            searchValue: search_value, title: "Users", results: users, isEmpty: users.length === 0
+        })
     } catch (e) {
         console.log(e)
     }

@@ -6,8 +6,14 @@ block content
     div.row.mt-3
         div.col-8.mr-1
             h2.mb-5= title
-            div#posts-lgp.list-group
-                +createWideCommunityTemplate(resultsCommunities)
+            if !isEmpty
+                div#posts-lgp.list-group
+                    if title==="Users"
+                        +createUsersTemplate(results)
+                    else
+                        +createWideCommunityTemplate(results)
+            else
+                h5.mb-5= "Oops! No Results"
 
 
         div.col-3

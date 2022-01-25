@@ -40,3 +40,15 @@ mixin createWideCommunityTemplate(communities)
                     i.fas.fa-plus-circle.me-2
                     span Subscribe
 
+
+mixin createUsersTemplate(users)
+    each user in users
+        a.post.p-4.list-group-item
+            div.row.text-black
+                div.mt-2.h5=  "Username: " + user.username
+            div.row.mt-4
+                button.btn.btn-outline-primary
+                    i.fas.fa-eye.me-2
+                    span View
+
+
