@@ -52,3 +52,8 @@ mixin createUsersTemplate(users)
                     span View
 
 
+mixin createAdminsTemplate(users)
+    each user in users
+        a.list-group-item.list-group-item-action(href='/communities/firstHotCommunity')= user.username
+
+

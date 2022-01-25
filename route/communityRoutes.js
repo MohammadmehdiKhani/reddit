@@ -18,14 +18,25 @@ router.get("/create", auth, async (req, res) => {
 router.get("/community/:community_id", auth, async (req, res) => {
     let community = await Community.findById(req.params.community_id)
     let posts = []
+    let admins = []
+
+    let isAdmin = false
+
     for (let i = 0; i < community.postIds.length; i++){
         let post = await Post.findById(community.postIds[i])
         post.postedBy = await User.findById(post.postedBy)
         post.community = await Community.findById(post.community)
         posts.push(post)
-        // console.log(post)
     }
-    return res.render("communityPage", {posts: posts, community: community});
+
+    for (let i = 0; i < community.adminIds.length; i++){
+        let admin = await User.findById(community.adminIds[i])
+        admins.push(admin)
+        if (req.body.username === admin.username){
+            isAdmin = true
+        }
+    }
+    return res.render("communityPage", {posts: posts, community: community, admins:admins, isAdmin: isAdmin});
 });
 
 

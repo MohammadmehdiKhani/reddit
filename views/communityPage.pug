@@ -14,3 +14,15 @@ block content
             div#posts-lgp.list-group
                 +createPostsTemplate(posts)
 
+        div.col-3
+            label.p-2.bg-light.border(for="admins") Admins
+            div#myCommunities.list-group
+                +createAdminsTemplate(admins)
+            div.mt-3
+            if isAdmin
+                label.p-2.bg-light.border(for="hotCommunities") Admin Privileges
+                    div.mt-2.h4=  "Add Admins"
+                    div.mt-2.h4=  "Change Community Name"
+                    div.mt-2.h4=  "Change Community Description"
+
+
