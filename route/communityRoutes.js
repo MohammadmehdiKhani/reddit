@@ -1,3 +1,4 @@
+
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
@@ -6,11 +7,27 @@ const _ = require("lodash");
 const debug = require("debug")("app:debug");
 const { Community, validateCommunity } = require("../database/schema/communitySchema");
 const { User, validateUser } = require("../database/schema/userSchema");
+const { Post, validatePost } = require("../database/schema/postSchema");
 const auth = require("../middleware/authMiddle");
 
 router.get("/create", auth, async (req, res) => {
     return res.render("createCommunity");
 });
+
+
+router.get("/community/:community_id", auth, async (req, res) => {
+    let community = await Community.findById(req.params.community_id)
+    let posts = []
+    for (let i = 0; i < community.postIds.length; i++){
+        let post = await Post.findById(community.postIds[i])
+        post.postedBy = await User.findById(post.postedBy)
+        post.community = await Community.findById(post.community)
+        posts.push(post)
+        // console.log(post)
+    }
+    return res.render("communityPage", {posts: posts, community: community});
+});
+
 
 router.post("/create", auth, async (req, res) => {
 

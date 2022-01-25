@@ -1,0 +1,16 @@
+extends layout.pug
+include mixin
+
+block content
+
+    div.row.mt-3
+        div.col-9
+            h2.mb-1= "Community"
+            div.row.text-black
+                div.mt-2.h4=  community.name
+            div.row.text-black
+                div.mb-5= "Description: " + community.description
+            h2.mb-5= "Posts"
+            div#posts-lgp.list-group
+                +createPostsTemplate(posts)
+

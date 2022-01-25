@@ -33,7 +33,7 @@ mixin createWideCommunityTemplate(communities)
             div.row.text-black
                 div.mb-5= "Description: " + community.description
             div.row.mt-4.justify-content-between
-                button.btn.btn-outline-primary.col-5
+                button.btn.btn-outline-primary.col-5(onClick="location.href=\"/communities/community/"+community._id+"\"")
                     i.fas.fa-eye.me-2
                     span View
                 button.btn.btn-outline-primary.col-5
