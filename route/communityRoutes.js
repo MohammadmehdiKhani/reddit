@@ -32,10 +32,13 @@ router.get("/community/:community_id", auth, async (req, res) => {
     for (let i = 0; i < community.adminIds.length; i++){
         let admin = await User.findById(community.adminIds[i])
         admins.push(admin)
-        if (req.body.username === admin.username){
+        // console.log(req.session.user.username)
+        // console.log(admin.username)
+        if (req.session.user.username === admin.username){
             isAdmin = true
         }
     }
+    console.log(isAdmin)
     return res.render("communityPage", {posts: posts, community: community, admins:admins, isAdmin: isAdmin});
 });
 
