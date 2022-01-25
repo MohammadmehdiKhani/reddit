@@ -67,8 +67,6 @@ router.post("/email", auth, async (req, res) => {
 
     try {
 
-        console.log(request)
-
         var new_email_trimmed = request.email.trim();
 
         let findedEmail = await User.findOne({email: new_email_trimmed});
@@ -92,7 +90,35 @@ router.post("/email", auth, async (req, res) => {
 });
 
 router.post("/password", auth, async (req, res) => {
-    return res.status(200).render("changePassword")
+    let request = {
+        current_password: req.body.currentPassword,
+        new_password: req.body.newPassword,
+    };
+
+    try {
+
+        let findedUser = await User.findOne({username: req.session.user.username});
+
+        if (findedUser.password !== request.current_password){
+            request.error = `Incorrect Password!`;
+            return res.render("changePassword", {error: request.error});
+        } else {
+
+            await User.findOneAndUpdate({username: req.session.user.username}, {password: req.body.newPassword})
+            request.success = `Password successfully changed!}`
+
+            req.session.user.password = req.body.newPassword;
+            res.locals.session.password = req.body.newPassword;
+
+            return res.status(200).render("changePassword", {success: request.success})
+
+        }
+
+
+    } catch (e) {
+        request.error = `Unexpected Error!` + e;
+        return res.render("changeEmail", {error: request.error, currentEmail: req.session.user.email});
+    }
 });
 
 router.post("/theme", auth, async (req, res) => {
