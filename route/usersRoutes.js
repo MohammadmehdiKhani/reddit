@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
 const debug = require("debug")("app:debug");
 const { User, validateUser } = require("../database/schema/userSchema");
@@ -30,8 +30,8 @@ router.post("/create", async (req, res) => {
         return res.render("createUser", request);
     }
 
-    const salt = await bcrypt.genSalt(10);
-    request.password = await bcrypt.hash(request.password, salt);
+    // const salt = await bcrypt.genSalt(10);
+    // request.password = await bcrypt.hash(request.password, salt);
     let createdUser = await User.create(request);
 
     req.session.user = createdUser;
@@ -64,7 +64,8 @@ router.post("/login", async (req, res) => {
         return res.render("login", msg);
     }
 
-    const isPasswordValid = await bcrypt.compare(request.password, findedUser.password);
+    // const isPasswordValid = await bcrypt.compare(request.password, findedUser.password);
+    const isPasswordValid = await request.password === findedUser.password;
     if (!isPasswordValid) {
         let msg = {
             error: `Password is incorrect`

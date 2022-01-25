@@ -11,6 +11,7 @@ const homeRoutes = require("./route/homeRounts");
 const userRoutes = require("./route/usersRoutes");
 const postRoutes = require("./route/postRoutes");
 const communityRoutes = require("./route/communityRoutes");
+const settingRoutes = require("./route/settingsRoutes")
 const { json } = require("express/lib/response");
 
 const app = express();
@@ -40,6 +41,7 @@ app.use("/", homeRoutes);
 app.use("/users", userRoutes)
 app.use("/posts", postRoutes)
 app.use("/communities", communityRoutes)
+app.use("/settings", settingRoutes)
 
 db();
 const server = app.listen(port, () => console.log(`Start server on port ${port}`));

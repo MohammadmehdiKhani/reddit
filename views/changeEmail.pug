@@ -1,0 +1,17 @@
+extends layout.pug
+
+block content
+    div.row.justify-content-center.mt-5
+        div.col-6.p-5.bg-light.border
+            h2.mb-5 Change Email
+            div.mb-3.bg-danger #{error}
+            form#createPost-frm(action="/settings/email" method="post" )
+                div.mb-3
+                    label.form-label(for="title") Current Email
+                    input#title-ipt.form-control(disabled='' type="email" name="title" value=title placeholder="Current email")
+                    div#title-fdbErr.invalid-feedback
+                div.mb-5
+                    label.form-label(for="title") New Email
+                    input#title-ipt.form-control(type="email" name="title" value=title placeholder="Enter new email ...")
+                    div#title-fdbErr.invalid-feedback
+                button#createPost-btn.btn.btn-primary(type="submit") Apply changes

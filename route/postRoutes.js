@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
 const { Post, validatePost } = require("../database/schema/postSchema");
 const { Community, validateCommunity } = require("../database/schema/communitySchema");
