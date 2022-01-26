@@ -34,7 +34,9 @@ router.get("/", auth, async (req, res) => {
         {
             $addFields: {
                 "postedBy.username": "$comuser.username",
-                "community.name": "$postcom.name"
+                "community.name": "$postcom.name",
+                "likeNum": {$cond: {if: {$isArray: "$likedBies"}, then: {$size: "$likedBies"}, else: "NA"}},
+                "dislikeNum": {$cond: {if: {$isArray: "$dislikedBies"}, then: {$size: "$dislikedBies"}, else: "NA"}},
             }
         }
     ])
@@ -76,13 +78,20 @@ router.get("/likes", auth, async (req, res) => {
         },
         {$unwind: "$comuser"},
         {$match: {$expr: {$in: ["$postcom._id", "$comuser.adminOfIds"]}}},
-        {$sort: {"createdAt": -1}},
         {
             $addFields: {
                 "postedBy.username": "$comuser.username",
-                "community.name": "$postcom.name"
+                "community.name": "$postcom.name",
+                "likeNum": {$cond: {if: {$isArray: "$likedBies"}, then: {$size: "$likedBies"}, else: "NA"}},
+                "dislikeNum": {$cond: {if: {$isArray: "$dislikedBies"}, then: {$size: "$dislikedBies"}, else: "NA"}},
             }
-        }
+        },
+        {
+            $addFields: {
+                "diffNum": {$subtract: ["$likeNum", "$dislikeNum"]}
+            }
+        },
+        {$sort: {"diffNum": -1}},
     ])
 
     let hotCommunities = await Community.aggregate([
@@ -95,6 +104,8 @@ router.get("/likes", auth, async (req, res) => {
         {$sort: {"postNums": -1}},
         {$limit: 5}
     ])
+
+    console.log(posts)
 
     return res.render("home", {hotCommunities: hotCommunities, posts: posts});
 });
