@@ -10,19 +10,33 @@ block content
                 div.mt-2.h4=  community.name
             div.row.text-black
                 div.mb-5= "Description: " + community.description
+            button.btn.btn-outline-primary.row-5.mb-5
+                i.fas.fa-plus-circle.me-2
+                span Subscribe
             h2.mb-5= "Posts"
             div#posts-lgp.list-group
                 +createPostsTemplate(posts)
 
         div.col-3
             label.p-2.bg-light.border(for="admins") Admins
-            div#myCommunities.list-group
+            div#myCommunities.list-group.mt-2
                 +createAdminsTemplate(admins)
             div.mt-3
             if isAdmin
                 label.p-2.bg-light.border() Admin Privileges
-                    div.mt-2.h4=  "Add Admins"
-                    div.mt-2.h4=  "Change Community Name"
-                    div.mt-2.h4=  "Change Community Description"
+                div.col.mt-2.mb-5
+                    button.btn.btn-outline-primary
+                        i.fas.fa-plus.me-2
+                        span Add Admins
+                    button.btn.btn-outline-primary
+                        i.fas.fa-edit.me-2
+                        span Change Name
+                    button.btn.btn-outline-primary
+                        i.fas.fa-edit.me-2
+                        span Change Description
+                if activeMode === "AddAdmins"
+                    label.p-2.bg-light.border() Add Admins
+                    div.col.mt-2.mb-5
+                        input#new-admin-ipt.form-control(type="text" name="newAdmin" value=`${newAdmin}` placeholder="Enter username ...")
 
 

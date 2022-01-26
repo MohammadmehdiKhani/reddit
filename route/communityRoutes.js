@@ -38,7 +38,7 @@ router.get("/community/:community_id", auth, async (req, res) => {
             isAdmin = true
         }
     }
-    console.log(isAdmin)
+    // console.log(isAdmin)
     return res.render("communityPage", {posts: posts, community: community, admins:admins, isAdmin: isAdmin});
 });
 

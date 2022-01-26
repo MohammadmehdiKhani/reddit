@@ -21,7 +21,7 @@ mixin createPostsTemplate(posts)
 mixin createCommunityTemplate(communities)
     each community in communities
         - var name = community.name;
-        a.list-group-item.list-group-item-action(href='/communities/firstHotCommunity')= name
+        a.list-group-item.list-group-item-action(onClick="location.href=\"/communities/community/"+community._id+"\"")= name
 
 mixin createWideCommunityTemplate(communities)
     each community in communities
@@ -47,13 +47,13 @@ mixin createUsersTemplate(users)
             div.row.text-black
                 div.mt-2.h5=  "Username: " + user.username
             div.row.mt-4
-                button.btn.btn-outline-primary
+                button.btn.btn-outline-primary(onClick="location.href=\"/users/user/"+user._id+"\"")
                     i.fas.fa-eye.me-2
                     span View
 
 
 mixin createAdminsTemplate(users)
     each user in users
-        a.list-group-item.list-group-item-action(href='/communities/firstHotCommunity')= user.username
+        a.list-group-item.list-group-item-action(onClick="location.href=\"/users/user/"+user._id+"\"")= user.username
 
 

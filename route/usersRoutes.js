@@ -5,10 +5,44 @@ const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
 const debug = require("debug")("app:debug");
 const { User, validateUser } = require("../database/schema/userSchema");
+const { Community, validateCommunity } = require("../database/schema/communitySchema");
+const { Post, validatePost } = require("../database/schema/postSchema");
 const auth = require("../middleware/authMiddle");
 
 router.get("/create", (req, res) => {
     return res.render("createUser");
+});
+
+router.get("/user/:user_id", auth, async (req, res) => {
+    let user = await User.findById(req.params.user_id);
+
+    let posts = []
+    let communities_sub = []
+    let communities_admin = []
+
+    for (let i = 0; i < user.adminOfIds.length; i++){
+        let community = await Community.findById(user.adminOfIds[i]);
+        communities_admin.push(community);
+    }
+
+    for (let i = 0; i < user.memberOfIds.length; i++){
+        let community = await Community.findById(user.memberIds[i]);
+        communities_sub.push(community);
+    }
+
+
+    posts = await Post.find({postedBy: user._id})
+
+    for (let i = 0; i < posts.length; i++){
+        posts[i].postedBy = await User.findById(posts[i].postedBy)
+        posts[i].community = await Community.findById(posts[i].community)
+    }
+
+    let isThisMe = (req.session.user.username === user.username)
+
+    return res.render("profilePage", {posts: posts, user: user, communities_sub:communities_sub, communities_admin: communities_admin, isThisMe: isThisMe});
+
+
 });
 
 router.post("/create", async (req, res) => {

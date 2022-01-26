@@ -1,0 +1,25 @@
+extends layout.pug
+include mixin
+
+block content
+
+    div.row.mt-3
+        div.col-9
+            h2.mb-1= "Profile"
+            div.row.text-black
+                div.mt-2.mb-5.h4=  user.username
+            h2.mb-5= "Posts"
+            div#posts-lgp.list-group
+                +createPostsTemplate(posts)
+
+        div.col-3
+            if isThisMe
+                div.mb-3.bg-info This is my profile
+            label.p-2.bg-light.border(for="communities_admin") Admin of
+            div#myCommunities.list-group.mt-2
+                +createCommunityTemplate(communities_admin)
+            div.mt-3
+            label.p-2.bg-light.border(for="communities_sub") Subscribed to
+            div#myCommunities.list-group.mt-2
+                +createCommunityTemplate(communities_sub)
+
