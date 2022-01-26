@@ -29,7 +29,9 @@ html(lang="en")
                             | Settings
                         ul.dropdown-menu(aria-labelledby='navbarDropdown')
                             li
-                                a.dropdown-item(href='/settings/username') Change Username
+                                a.dropdown-item(href=`/users/user/${session._id}`) Profile
+                            li
+                                a.dropdown-item(href='/settings/username/') Change Username
                             li
                                 a.dropdown-item(href='/settings/email') Change Email
                             li
