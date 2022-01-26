@@ -89,6 +89,40 @@ function getPostIdFromElement(element) {
     return postId;
 }
 
+$(document).on("click", ".btn-join-community", (event) => {
+
+    let community_id = $(event.target).attr('community-id')
+
+
+    $.ajax({
+        url: `/communities/community/${community_id}/join`,
+        type: "POST",
+        success: function (res) {
+            $("#join-button").removeClass("btn-outline-primary").addClass("btn-primary");
+            $("#join-button").removeClass("btn-join-community").addClass("btn-unjoin-community");
+            $("#join-button span").text("Joined");
+        }
+    })
+})
+
+
+$(document).on("click", ".btn-unjoin-community", (event) => {
+
+    let community_id = $(event.target).attr('community-id')
+
+
+    $.ajax({
+        url: `/communities/community/${community_id}/unjoin`,
+        type: "POST",
+        success: function (res) {
+            $("#join-button").removeClass("btn-primary").addClass("btn-outline-primary");
+            $("#join-button").removeClass("btn-unjoin-community").addClass("btn-join-community");
+            $("#join-button span").text("Join");
+        }
+    })
+})
+
+
 function timeDifference(current, previous) {
     var msPerMinute = 60 * 1000;
     var msPerHour = msPerMinute * 60;
