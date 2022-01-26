@@ -9,10 +9,18 @@ block content
                 +createPostsTemplate(posts)
 
         div.col-3
-            label.p-2.bg-light.border(for="myCommunities") My Communities
-            div#myCommunities.list-group
-                +createCommunityTemplate(myCommunities)
+            label.p-2.bg-light.border() Sort by
+            div.col.mt-2.mb-5
+                button.btn.btn-primary(onClick="location.href=\"/\"")
+                    i.fas.fa-clock.me-2
+                    span Time
+                button.btn.btn-success(onClick="location.href=\"/likes\"")
+                    i.fas.fa-thumbs-up.me-2
+                    span Likes
+                button.btn.btn-danger(onClick="location.href=\"/comments\"")
+                    i.fas.fa-edit.me-2
+                    span Comments
             div.mt-3
             label.p-2.bg-light.border(for="hotCommunities") Hot Communities
-            div#hotCommunities.list-group  
+            div#hotCommunities.list-group
                 +createCommunityTemplate(hotCommunities)
