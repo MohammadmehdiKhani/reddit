@@ -10,6 +10,9 @@ const auth = require("../middleware/authMiddle");
 
 router.get("/", auth, async (req, res) => {
 
+    let user_sub_list = await User.findById(req.session.user._id)
+    user_sub_list = user_sub_list.memberOfIds
+
     let posts = await Post.aggregate([
         {
             $lookup: {
@@ -23,23 +26,25 @@ router.get("/", auth, async (req, res) => {
         {
             $lookup: {
                 from: "users",
-                localField: "postcom._id",
-                foreignField: "memberOfIds",
-                as: "comuser"
+                localField: "postedBy",
+                foreignField: "_id",
+                as: "postuser"
             }
         },
-        {$unwind: "$comuser"},
-        {$match: {$expr: {$in: ["$postcom._id", "$comuser.memberOfIds"]}}},
+        {$unwind: "$postuser"},
+        {$match: {$expr: {$in: ["$postcom._id", user_sub_list]}}},
         {$sort: {"createdAt": -1}},
         {
             $addFields: {
-                "postedBy.username": "$comuser.username",
+                "postedBy.username": "$postuser.username",
                 "community.name": "$postcom.name",
                 "likeNum": {$cond: {if: {$isArray: "$likedBies"}, then: {$size: "$likedBies"}, else: "NA"}},
                 "dislikeNum": {$cond: {if: {$isArray: "$dislikedBies"}, then: {$size: "$dislikedBies"}, else: "NA"}},
             }
         }
     ])
+
+    // console.log(posts)
 
     let hotCommunities = await Community.aggregate([
         {
@@ -58,6 +63,10 @@ router.get("/", auth, async (req, res) => {
 
 router.get("/likes", auth, async (req, res) => {
 
+    let user_sub_list = await User.findById(req.session.user._id)
+    user_sub_list = user_sub_list.memberOfIds
+
+
     let posts = await Post.aggregate([
         {
             $lookup: {
@@ -71,16 +80,16 @@ router.get("/likes", auth, async (req, res) => {
         {
             $lookup: {
                 from: "users",
-                localField: "postcom._id",
-                foreignField: "memberOfIds",
-                as: "comuser"
+                localField: "postedBy",
+                foreignField: "_id",
+                as: "postuser"
             }
         },
-        {$unwind: "$comuser"},
-        {$match: {$expr: {$in: ["$postcom._id", "$comuser.memberOfIds"]}}},
+        {$unwind: "$postuser"},
+        {$match: {$expr: {$in: ["$postcom._id", user_sub_list]}}},
         {
             $addFields: {
-                "postedBy.username": "$comuser.username",
+                "postedBy.username": "$postuser.username",
                 "community.name": "$postcom.name",
                 "likeNum": {$cond: {if: {$isArray: "$likedBies"}, then: {$size: "$likedBies"}, else: "NA"}},
                 "dislikeNum": {$cond: {if: {$isArray: "$dislikedBies"}, then: {$size: "$dislikedBies"}, else: "NA"}},
