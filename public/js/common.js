@@ -80,8 +80,21 @@ $(document).on("click", ".like-btn", (event) => {
     let element = $(event.currentTarget);
     let postId = getPostIdFromElement(element);
 
-    element.removeClass("btn-outline-primary").addClass("btn-danger");
 
+
+    $.ajax({
+        url: `/api/posts/like/${postId}`,
+        data: {},
+        type: "PUT",
+        success: result => {
+            if (result.liked) {
+                element.removeClass("btn-outline-primary").addClass("btn-danger");
+            }
+            else {
+                element.removeClass("btn-danger").addClass("btn-outline-primary");
+            }
+        }
+    });
 })
 
 function getPostIdFromElement(element) {
