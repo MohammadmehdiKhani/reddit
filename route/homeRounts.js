@@ -24,12 +24,12 @@ router.get("/", auth, async (req, res) => {
             $lookup: {
                 from: "users",
                 localField: "postcom._id",
-                foreignField: "adminOfIds",
+                foreignField: "memberOfIds",
                 as: "comuser"
             }
         },
         {$unwind: "$comuser"},
-        {$match: {$expr: {$in: ["$postcom._id", "$comuser.adminOfIds"]}}},
+        {$match: {$expr: {$in: ["$postcom._id", "$comuser.memberOfIds"]}}},
         {$sort: {"createdAt": -1}},
         {
             $addFields: {
@@ -72,12 +72,12 @@ router.get("/likes", auth, async (req, res) => {
             $lookup: {
                 from: "users",
                 localField: "postcom._id",
-                foreignField: "adminOfIds",
+                foreignField: "memberOfIds",
                 as: "comuser"
             }
         },
         {$unwind: "$comuser"},
-        {$match: {$expr: {$in: ["$postcom._id", "$comuser.adminOfIds"]}}},
+        {$match: {$expr: {$in: ["$postcom._id", "$comuser.memberOfIds"]}}},
         {
             $addFields: {
                 "postedBy.username": "$comuser.username",
@@ -105,7 +105,7 @@ router.get("/likes", auth, async (req, res) => {
         {$limit: 5}
     ])
 
-    console.log(posts)
+    // console.log(posts)
 
     return res.render("home", {hotCommunities: hotCommunities, posts: posts});
 });
