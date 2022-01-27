@@ -15,9 +15,6 @@ router.get("/posts", async (req, res) => {
 });
 
 router.post("/posts", async (req, res) => {
-    debug(req.session.user);
-    debug(req.body);
-
     return res.status(200).send(req.body.title);
 });
 
@@ -29,11 +26,7 @@ router.put("/like/:id", async (req, res) => {
     let post = await Post.findOne({ _id: postId });
     let user = await User.findOne({ _id: userId });
 
-    debug("before");
-    debug(post);
-
     let isLikedByUser = _.findIndex(post.likedBies, u => u._id == userId);
-    debug(isLikedByUser);
 
     if (isLikedByUser > -1) {
         post.likedBies = _.remove(post.likedBies, userId);
@@ -46,9 +39,6 @@ router.put("/like/:id", async (req, res) => {
 
     user.save();
     post.save();
-
-    debug("after");
-    debug(post);
 
     return res.status(200).send({ liked: isLikedByUser });
 });
