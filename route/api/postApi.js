@@ -40,7 +40,7 @@ router.put("/like/:id", async (req, res) => {
     user.save();
     post.save();
 
-    return res.status(200).send({ liked: isLikedByUser });
+    return res.status(200).send({ liked: isLikedByUser, likeCount: post.likedBies.length });
 });
 
 module.exports = router;
