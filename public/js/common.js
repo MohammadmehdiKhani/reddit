@@ -59,7 +59,7 @@ $(document).ready(() => {
     let communitiesDropBox = $("#community-dpx");
 
     $.ajax({
-        url: `/api/communities`,
+        url: `/api/communities/isJoined`,
         type: "GET",
         success: (returnedData) => {
 
