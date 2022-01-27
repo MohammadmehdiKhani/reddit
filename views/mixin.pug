@@ -10,7 +10,7 @@ mixin createPostsTemplate(posts)
             div.row.mt-4.justify-content-between
                 button.like-btn.btn.btn-outline-primary.col-3
                     i.fas.fa-thumbs-up.me-2
-                    span Like  
+                    span= "Like | " + post.likedBies.length
                 button.btn.btn-outline-primary.col-3
                     i.fas.fa-thumbs-down.me-2
                     span DisLike 
