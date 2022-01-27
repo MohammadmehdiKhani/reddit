@@ -7,7 +7,7 @@ block content
         div.col-9
             h2.mb-1= "Community"
             div.row.text-black
-                div.mt-2.h4=  community.name
+                div.mt-2.h4#community-name-text=  community.name
             div.row.text-black
                 div.mb-5= "Description: " + community.description
             if community.joined
@@ -31,15 +31,27 @@ block content
             if isAdmin
                 label.p-2.bg-light.border() Admin Privileges
                 div.col.mt-2.mb-5
-                    button.btn.btn-outline-primary
+                    button.btn.btn-outline-primary#com-add-admin-btn
                         i.fas.fa-plus.me-2
                         span Add Admins
-                    button.btn.btn-outline-primary
+                    button.btn.btn-outline-primary#com-change-name
                         i.fas.fa-edit.me-2
                         span Change Name
-                    button.btn.btn-outline-primary
+                    button.btn.btn-outline-primary.mb-5#com-change-desc
                         i.fas.fa-edit.me-2
                         span Change Description
+                div#com-add-admin-dialog
+                    span Dialog1
+                div#com-change-name-dialog
+                    form#changeCommunity-frm(action=`/communities/community/${community._id}/changeName`, method="post")
+                        div.mb-5
+                            label.form-label New community name
+                            input#new-com-name-ipt.form-control(type="text" name="newComName" value=community.name)
+                            div#new-com-name-fdbErr.invalid-feedback
+                            div#new-com-name-fdbSuc.valid-feedback
+                        button#new-com-name-btn.btn.btn-primary(type="submit") Apply changes
+                div#com-change-desc-dialog
+                    span Dialog3
                 if activeMode === "AddAdmins"
                     label.p-2.bg-light.border() Add Admins
                     div.col.mt-2.mb-5

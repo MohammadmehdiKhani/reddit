@@ -84,6 +84,21 @@ router.post("/community/:community_id/join", auth, async (req, res) => {
 });
 
 
+
+router.post("/community/:community_id/changeName", auth, async (req, res) => {
+
+    try {
+        let current_community = await Community.findById(req.params.community_id)
+        current_community.name = req.body.name
+        await current_community.save()
+        // console.log(current_community.name)
+        res.status(200).send("Name changed Successfully")
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+
 router.post("/create", auth, async (req, res) => {
 
     let request = {

@@ -89,6 +89,66 @@ function getPostIdFromElement(element) {
     return postId;
 }
 
+$(document).ready( function() {
+    $('#com-add-admin-dialog').hide()
+    $('#com-change-name-dialog').hide()
+    $('#com-change-desc-dialog').hide()
+
+    $('#com-add-admin-btn').click(function () {
+        if ($("#com-add-admin-btn").hasClass("btn-outline-primary")) {
+            $('#com-add-admin-dialog').show()
+            $('#com-change-name-dialog').hide()
+            $('#com-change-desc-dialog').hide()
+
+            $("#com-add-admin-btn").removeClass("btn-outline-primary").addClass("btn-primary");
+            $("#com-change-name").removeClass("btn-primary").addClass("btn-outline-primary");
+            $("#com-change-desc").removeClass("btn-primary").addClass("btn-outline-primary");
+        } else {
+            $('#com-add-admin-dialog').hide()
+
+            $("#com-add-admin-btn").removeClass("btn-primary").addClass("btn-outline-primary");
+        }
+    });
+
+
+    $('#com-change-name').click(function () {
+
+    if ($("#com-change-name").hasClass("btn-outline-primary")) {
+            $('#com-change-name-dialog').show()
+            $('#com-add-admin-dialog').hide()
+            $('#com-change-desc-dialog').hide()
+
+            $("#com-change-name").removeClass("btn-outline-primary").addClass("btn-primary");
+            $("#com-add-admin-btn").removeClass("btn-primary").addClass("btn-outline-primary");
+            $("#com-change-desc").removeClass("btn-primary").addClass("btn-outline-primary");
+        } else {
+            $('#com-change-name-dialog').hide()
+
+            $("#com-change-name").removeClass("btn-primary").addClass("btn-outline-primary");
+        }
+    });
+
+
+    $('#com-change-desc').click(function () {
+
+
+        if ($("#com-change-desc").hasClass("btn-outline-primary")) {
+            $('#com-change-desc-dialog').show()
+            $('#com-add-admin-dialog').hide()
+            $('#com-change-name-dialog').hide()
+
+            $("#com-change-desc").removeClass("btn-outline-primary").addClass("btn-primary");
+            $("#com-change-name").removeClass("btn-primary").addClass("btn-outline-primary");
+            $("#com-add-admin-btn").removeClass("btn-primary").addClass("btn-outline-primary");
+        } else {
+            $('#com-change-desc-dialog').hide()
+
+            $("#com-change-desc").removeClass("btn-primary").addClass("btn-outline-primary");
+        }
+    });
+
+});
+
 $(document).on("click", ".btn-join-community", (event) => {
 
     let community_id = $(event.currentTarget).attr('community-id')
