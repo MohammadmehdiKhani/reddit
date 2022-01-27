@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 const Joi = require("joi");
 const bcrypt = require("bcrypt-nodejs");
@@ -16,6 +17,9 @@ router.get("/create", auth, async (req, res) => {
 
 router.get("/community/:community_id", auth, async (req, res) => {
     let community = await Community.findById(req.params.community_id)
+
+    community.joined = community.memberIds.includes(req.session.user._id)
+
     let posts = []
     let admins = []
 
@@ -42,15 +46,42 @@ router.get("/community/:community_id", auth, async (req, res) => {
 });
 
 
-router.post("/community/:community_id/join", auth, async (req, res) => {
-    res.status(200).send("Joined Successfully")
-});
-
-
 router.post("/community/:community_id/unjoin", auth, async (req, res) => {
-    res.status(200).send("Joined Successfully")
+    try {
+        let current_user = await User.findById(req.session.user._id)
+        current_user.memberOfIds = current_user.memberOfIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.params.community_id)))
+        await current_user.save()
+
+        let current_community = await Community.findById(req.params.community_id)
+        current_community.memberIds = current_community.memberIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.session.user._id)))
+        await current_community.save()
+
+        res.status(200).send("UnJoined Successfully")
+
+    } catch (e) {
+        console.log(e)
+    }
 });
 
+
+router.post("/community/:community_id/join", auth, async (req, res) => {
+
+    try {
+
+        let current_user = await User.findById(req.session.user._id)
+        current_user.memberOfIds.push(mongoose.Types.ObjectId(req.params.community_id))
+        await current_user.save()
+
+        let current_community = await Community.findById(req.params.community_id)
+        current_community.memberIds.push(mongoose.Types.ObjectId(req.session.user._id))
+        await current_community.save()
+
+        res.status(200).send("Joined Successfully")
+
+    } catch (e) {
+        console.log(e)
+    }
+});
 
 
 router.post("/create", auth, async (req, res) => {

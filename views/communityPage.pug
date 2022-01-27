@@ -10,9 +10,15 @@ block content
                 div.mt-2.h4=  community.name
             div.row.text-black
                 div.mb-5= "Description: " + community.description
-            button.btn.btn-outline-primary.row-5.mb-5.btn-join-community#join-button(href='#', community-id= community._id)
-                i.fas.fa-plus-circle.me-2
-                span Join
+            if community.joined
+                button.btn.btn-primary.row-5.mb-5.btn-unjoin-community#join-button(href='#', community-id= community._id)
+                    i.fas.fa-plus-circle.me-2
+                    span Joined
+            else
+                button.btn.btn-outline-primary.row-5.mb-5.btn-join-community#join-button(href='#', community-id= community._id)
+                    i.fas.fa-plus-circle.me-2
+                    span Join
+
             h2.mb-5= "Posts"
             div#posts-lgp.list-group
                 +createPostsTemplate(posts)

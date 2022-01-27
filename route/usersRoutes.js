@@ -26,7 +26,7 @@ router.get("/user/:user_id", auth, async (req, res) => {
     }
 
     for (let i = 0; i < user.memberOfIds.length; i++){
-        let community = await Community.findById(user.memberIds[i]);
+        let community = await Community.findById(user.memberOfIds[i]);
         communities_sub.push(community);
     }
 

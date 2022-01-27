@@ -91,7 +91,8 @@ function getPostIdFromElement(element) {
 
 $(document).on("click", ".btn-join-community", (event) => {
 
-    let community_id = $(event.target).attr('community-id')
+    let community_id = $(event.currentTarget).attr('community-id')
+    console.log("JOIN "+ community_id)
 
 
     $.ajax({
@@ -108,7 +109,9 @@ $(document).on("click", ".btn-join-community", (event) => {
 
 $(document).on("click", ".btn-unjoin-community", (event) => {
 
-    let community_id = $(event.target).attr('community-id')
+    let community_id = $(event.currentTarget).attr('community-id')
+    console.log("Unjoin "+ community_id)
+
 
 
     $.ajax({
