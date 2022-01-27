@@ -1,4 +1,4 @@
-$('#changeCommunity-frm').on('submit', (e) => validateChangeComNameForm(e));
+$('#changeCommunityName-frm').on('submit', (e) => validateChangeComNameForm(e));
 
 function validateChangeComNameForm(e) {
     e.preventDefault();
@@ -27,15 +27,11 @@ function validateChangeComNameForm(e) {
     }
 
     if (formIsValid) {
-        // document.getElementById("changeCommunity-frm").submit();
-        // console.log($(e))
-        // console.log(($(this).community-id))
-        // alert(200)
 
-        console.log($("#changeCommunity-frm"))
+        // console.log($("#changeCommunity-frm"))
 
         $.ajax({
-            url: $("#changeCommunity-frm").attr("action"),
+            url: $("#changeCommunityName-frm").attr("action"),
             type: "POST",
             data: {name: newName},
             success: function (res) {

@@ -9,7 +9,7 @@ block content
             div.row.text-black
                 div.mt-2.h4#community-name-text=  community.name
             div.row.text-black
-                div.mb-5= "Description: " + community.description
+                div.mb-5#community-desc-text= "Description: " + community.description
             if community.joined
                 button.btn.btn-primary.row-5.mb-5.btn-unjoin-community#join-button(href='#', community-id= community._id)
                     i.fas.fa-plus-circle.me-2
@@ -43,7 +43,7 @@ block content
                 div#com-add-admin-dialog
                     span Dialog1
                 div#com-change-name-dialog
-                    form#changeCommunity-frm(action=`/communities/community/${community._id}/changeName`, method="post")
+                    form#changeCommunityName-frm(action=`/communities/community/${community._id}/changeName`, method="post")
                         div.mb-5
                             label.form-label New community name
                             input#new-com-name-ipt.form-control(type="text" name="newComName" value=community.name)
@@ -51,7 +51,13 @@ block content
                             div#new-com-name-fdbSuc.valid-feedback
                         button#new-com-name-btn.btn.btn-primary(type="submit") Apply changes
                 div#com-change-desc-dialog
-                    span Dialog3
+                    form#changeCommunityDesc-frm(action=`/communities/community/${community._id}/changeDesc`, method="post")
+                        div.mb-5
+                            label.form-label New community description
+                            textarea#new-com-desc-ipt.form-control(type="text" name="newComDesc" value=community.name)
+                            div#new-com-desc-fdbErr.invalid-feedback
+                            div#new-com-desc-fdbSuc.valid-feedback
+                        button#new-com-name-btn.btn.btn-primary(type="submit") Apply changes
                 if activeMode === "AddAdmins"
                     label.p-2.bg-light.border() Add Admins
                     div.col.mt-2.mb-5
