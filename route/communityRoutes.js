@@ -102,7 +102,8 @@ router.post("/create", auth, async (req, res) => {
     let communityToCreate = {
         name: request.name,
         description: request.description,
-        adminIds: [findedUser._id]
+        adminIds: [findedUser._id],
+        memberIds: [findedUser._id]
     };
 
     let createdCommunity = await Community.create(communityToCreate);
@@ -110,6 +111,11 @@ router.post("/create", auth, async (req, res) => {
     let union = _.union(findedUser.adminOfIds, [createdCommunity._id]);
     findedUser.adminOfIds = union;
     await findedUser.save();
+
+    findedUser.memberOfIds.push(mongoose.Types.ObjectId(createdCommunity._id))
+    await findedUser.save()
+
+
     return res.redirect("/");
 });
 

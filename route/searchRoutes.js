@@ -18,6 +18,11 @@ router.get("/", auth, async (req, res) => {
             "$or": [{name: new RegExp(search_value, 'i')}, {description: new RegExp(search_value, 'i')}]
         })
 
+        for (let i = 0; i < communities.length; i++){
+            let user = await User.findById(communities[i].adminIds[0]._id)
+            communities[i].adminIds[0].username = user.username
+        }
+
         return res.render("searchPage", {
             searchValue: search_value,
             title: "Communities",
