@@ -26,20 +26,33 @@ html(lang="en")
                 if(session)
                     div.dropdown
                         a#navbarDropdown.nav-link.dropdown-toggle(href='#' data-bs-toggle='dropdown' aria-expanded='false')
-                            | Settings
+                            i.fas.fa-cog.me-2
+                            span Settings
                         ul.dropdown-menu(aria-labelledby='navbarDropdown')
                             li
-                                a.dropdown-item(href=`/users/user/${session._id}`) Profile
+                                a.dropdown-item(href=`/users/user/${session._id}`)
+                                    i.fas.fa-user.me-2
+                                    span Profile
                             li
-                                a.dropdown-item(href='/settings/username/') Change Username
+                                a.dropdown-item(href='/settings/username/') 
+                                    i.fas.fa-user-edit.me-2
+                                    span Change Username
                             li
-                                a.dropdown-item(href='/settings/email') Change Email
+                                a.dropdown-item(href='/settings/email') 
+                                    i.fas.fa-at.me-2
+                                    span Change Email
                             li
-                                a.dropdown-item(href='/settings/password') Change Password
+                                a.dropdown-item(href='/settings/password') 
+                                    i.fas.fa-key.me-2
+                                    span Change Password
                             li
-                                a.dropdown-item(href='/settings/theme') Change Theme
+                                a.dropdown-item(href='/settings/theme') 
+                                    i.fas.fa-adjust.me-2
+                                    span Change Theme
                             li
-                                a.dropdown-item(href='/savedposts') Saved Posts
+                                a.dropdown-item(href='/savedposts') 
+                                    i.fas.fa-save.me-2
+                                    span Saved Posts
                             li
                                 a.dropdown-item(href='/users/logout')
                                     i.fas.fa-power-off.me-2

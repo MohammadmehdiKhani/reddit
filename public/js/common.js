@@ -79,7 +79,22 @@ $(document).ready(() => {
 $(document).on("click", ".like-btn", (event) => {
     let element = $(event.currentTarget);
     let postId = getPostIdFromElement(element);
-    console.log(postId);
+
+
+
+    $.ajax({
+        url: `/api/posts/like/${postId}`,
+        data: {},
+        type: "PUT",
+        success: result => {
+            if (result.liked) {
+                element.removeClass("btn-outline-primary").addClass("btn-danger");
+            }
+            else {
+                element.removeClass("btn-danger").addClass("btn-outline-primary");
+            }
+        }
+    });
 })
 
 function getPostIdFromElement(element) {
@@ -152,7 +167,7 @@ $(document).ready( function() {
 $(document).on("click", ".btn-join-community", (event) => {
 
     let community_id = $(event.currentTarget).attr('community-id')
-    console.log("JOIN "+ community_id)
+    console.log("JOIN " + community_id)
 
 
     $.ajax({
@@ -170,7 +185,7 @@ $(document).on("click", ".btn-join-community", (event) => {
 $(document).on("click", ".btn-unjoin-community", (event) => {
 
     let community_id = $(event.currentTarget).attr('community-id')
-    console.log("Unjoin "+ community_id)
+    console.log("Unjoin " + community_id)
 
 
 

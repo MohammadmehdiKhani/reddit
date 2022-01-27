@@ -1,6 +1,6 @@
 mixin createPostsTemplate(posts)
     each post in posts
-        a.post.p-4.list-group-item.list-group-item-action(href="#" data-id=`61edaad92c2181a5879de4d7`)
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`)
             div.row.text-muted
                 small.col-4.mb-1= "Community: " + post.community.name
                 small.col-4= "Posted by: " + post.postedBy.username
@@ -10,7 +10,7 @@ mixin createPostsTemplate(posts)
             div.row.mt-4.justify-content-between
                 button.like-btn.btn.btn-outline-primary.col-3
                     i.fas.fa-thumbs-up.me-2
-                    span Like  
+                    span= "Like | " + post.likedBies.length
                 button.btn.btn-outline-primary.col-3
                     i.fas.fa-thumbs-down.me-2
                     span DisLike 
