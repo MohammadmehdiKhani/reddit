@@ -41,7 +41,7 @@ block content
                         i.fas.fa-edit.me-2
                         span Change Description
                 div#com-add-admin-dialog
-                    form#addAdmin-frm(action=`/search/users-admins/${community._id}`, method="post")
+                    form#addAdmin-frm(action=`/search/users-admins/${community._id}`, method="post", community_id=`${community._id}`)
                         div.col.mt-2.mb-2
                             label.form-label New admin
                             input#new-admin-ipt.form-control(type="text" name="searchInput" placeholder="Search for username...")

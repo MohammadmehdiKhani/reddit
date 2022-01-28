@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
@@ -67,6 +68,7 @@ router.post("/users-admins/:community_id", auth, async (req, res) => {
     // console.log(req.params.community_id)
 
     var community = await Community.findById(req.params.community_id)
+    let community_admins = community.adminIds.slice(1)
 
     let search_value = req.body["searchInput"].trim()
 
@@ -79,10 +81,16 @@ router.post("/users-admins/:community_id", auth, async (req, res) => {
 
         for (let i = 0; i < users.length; i++){
 
+            // console.log(community_admins)
+            // console.log(users[i]._id)
+            // console.log(community_admins.includes(mongoose.Types.ObjectId(users[i]._id)))
+            //
+            // console.log()
+
             if (community.adminIds[0].equals(users[i]._id)){
                 users[i].adminState = "isOwner"
             }
-            else if (community.adminIds.slice(1).includes(users[i]._id)) {
+            else if (community_admins.map(admin=>admin.toString()).includes(users[i]._id)) {
                 users[i].adminState = "isAdmin"
             } else {
                 users[i].adminState = "isNotAdmin"

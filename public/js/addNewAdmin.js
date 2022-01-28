@@ -5,8 +5,11 @@ function bringUsersList(e) {
     $('#search-result').empty()
 
 
+
     if ($("#new-admin-ipt").val().trim() !== ""){
         // document.getElementById("addAdmin-frm").submit();
+
+        var community_id = $('#addAdmin-frm').attr("community_id")
 
         $.ajax({
             url: $('#addAdmin-frm').attr("action"),
@@ -32,10 +35,18 @@ function bringUsersList(e) {
                     p.className = "align-baseline"
                     if (item.adminState === "isNotAdmin") {
                         btn.textContent = "Make admin"
-                        btn.className = "btn btn-primary rounded"
+                        btn.className = "btn btn-success rounded btn-community-add-admin"
+                        btn.id = "btn-"+item._id
+                        btn.setAttribute("community-id",community_id)
+                        btn.setAttribute("user-id", item._id)
+                        btn.setAttribute("user-name", item.username)
                     } else if (item.adminState === "isAdmin"){
                         btn.textContent = "Revoke admin"
-                        btn.className = "btn btn-danger rounded"
+                        btn.className = "btn btn-danger rounded btn-community-remove-admin"
+                        btn.id = "btn-"+item._id
+                        btn.setAttribute("community-id",community_id)
+                        btn.setAttribute("user-id", item._id)
+                        btn.setAttribute("user-name", item.username)
                     } else {
                         btn.className = "btn btn-dark rounded"
                         $('.btn-dark').prop('disabled', true);

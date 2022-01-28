@@ -114,6 +114,45 @@ router.post("/community/:community_id/changeDesc", auth, async (req, res) => {
 
 
 
+router.post("/community/make_admin", auth, async (req, res) => {
+    try {
+
+        let current_user = await User.findById(req.body.user_id)
+        current_user.adminOfIds.push(mongoose.Types.ObjectId(req.body.community_id))
+        await current_user.save()
+
+        let current_community = await Community.findById(req.body.community_id)
+        current_community.adminIds.push(mongoose.Types.ObjectId(req.body.user_id))
+        await current_community.save()
+
+        res.status(200).send("Make admin Successfully")
+
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+
+
+router.post("/community/revoke_admin", auth, async (req, res) => {
+    try {
+        let current_user = await User.findById(req.body.user_id)
+        current_user.adminOfIds = current_user.adminOfIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.body.community_id)))
+        await current_user.save()
+
+        let current_community = await Community.findById(req.body.community_id)
+        current_community.adminIds = current_community.adminIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.body.user_id)))
+        await current_community.save()
+
+        res.status(200).send("Revoke admin Successfully")
+
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+
+
 router.post("/create", auth, async (req, res) => {
 
     let request = {

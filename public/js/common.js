@@ -182,6 +182,7 @@ $(document).on("click", ".btn-join-community", (event) => {
 })
 
 
+
 $(document).on("click", ".btn-unjoin-community", (event) => {
 
     let community_id = $(event.currentTarget).attr('community-id')
@@ -200,6 +201,68 @@ $(document).on("click", ".btn-unjoin-community", (event) => {
     })
 })
 
+
+
+
+
+
+$(document).on("click", ".btn-community-add-admin", (event) => {
+
+    let community_id = $(event.currentTarget).attr('community-id')
+    let user_id = $(event.currentTarget).attr('user-id')
+    let user_name = $(event.currentTarget).attr('user-name')
+
+    console.log("ADD " + community_id + " " + user_id)
+
+    $.ajax({
+        url: `/communities/community/make_admin`,
+        type: "POST",
+        data: {
+            community_id: community_id,
+            user_id: user_id
+        },
+        success: function (res) {
+            $("#btn-"+user_id).text("Revoke admin")
+            $("#btn-"+user_id).removeClass("btn-success").addClass("btn-danger")
+            $("#btn-"+user_id).removeClass("btn-community-add-admin").addClass("btn-community-remove-admin")
+
+
+            let parent_div= document.getElementById('myCommunities');
+            let a = document.createElement('a');
+            a.className = "list-group-item list-group-item-action"
+            a.id = "admin-list-dynamic-"+user_id
+            a.text = user_name
+            parent_div.appendChild(a)
+            // $("#admin-list-dynamic-"+user_id).text("hello")
+        }
+    })
+})
+
+
+
+$(document).on("click", ".btn-community-remove-admin", (event) => {
+
+    let community_id = $(event.currentTarget).attr('community-id')
+    let user_id = $(event.currentTarget).attr('user-id')
+    console.log("REVOKE " + community_id + " " + user_id)
+
+    $.ajax({
+        url: `/communities/community/revoke_admin`,
+        type: "POST",
+        data: {
+            community_id: community_id,
+            user_id: user_id
+        },
+        success: function (res) {
+            $("#btn-"+user_id).text("Make admin")
+            $("#btn-"+user_id).removeClass("btn-danger").addClass("btn-success")
+            $("#btn-"+user_id).removeClass("btn-community-remove-admin").addClass("btn-community-add-admin")
+
+            $(`#admin-list-dynamic-${user_id}`).remove()
+
+        }
+    })
+})
 
 function timeDifference(current, previous) {
     var msPerMinute = 60 * 1000;

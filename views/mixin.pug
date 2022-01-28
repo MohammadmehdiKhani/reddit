@@ -52,6 +52,6 @@ mixin createUsersTemplate(users)
 
 mixin createAdminsTemplate(users)
     each user in users
-        a.list-group-item.list-group-item-action(onClick="location.href=\"/users/user/"+user._id+"\"")= user.username
+        a.list-group-item.list-group-item-action(onClick="location.href=\"/users/user/"+user._id+"\"", id=`admin-list-dynamic-${user._id}`)= user.username
 
 
