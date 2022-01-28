@@ -8,21 +8,52 @@ block content
             h2.mb-5= title
             if !isEmpty
                 div#posts-lgp.list-group
-                    if title==="Users"
-                        +createUsersTemplate(results)
-                    else
+                    if mode === "p"
+                        +createPostsTemplate(results)
+                    else if mode === "c"
                         +createWideCommunityTemplate(results)
+                    else if mode === "u"
+                        +createUsersTemplate(results)
+
             else
                 h5.mb-5= "Oops! No Results"
 
 
         div.col-3
-            if title==="Users"
-                h4.mb-5 Enough Results?
-                a.post(href="/search/?searchInput="+searchValue)
-                    div.mt-6.h6=  "Search \"" + searchValue + "\" among communities!"
-            else
-                h4.mb-5 More Results?
-                a.post(href="/search/users?searchInput="+searchValue)
-                    div.mt-6.h6=  "Search \"" + searchValue + "\" among users!"
+            label.p-2.bg-light.border() Search by
+            if mode === "p"
+                div.col.mt-2.mb-5
+                    button.btn.btn-primary(onClick=`location.href=\"/search/?searchInput=${searchValue}\"`)
+                        i.fas.fa-mail-bulk.me-2
+                        span Posts
+                    button.btn.btn-outline-danger(onClick=`location.href=\"/search/users/?searchInput=${searchValue}\"`)
+                        i.fas.fa-users.me-2
+                        span Users
+                    button.btn.btn-outline-success(onClick=`location.href=\"/search/communities/?searchInput=${searchValue}\"`)
+                        i.fas.fa-school.me-2
+                        span Communities
+            else if mode === "c"
+                div.col.mt-2.mb-5
+                    button.btn.btn-outline-primary(onClick=`location.href=\"/search/?searchInput=${searchValue}\"`)
+                        i.fas.fa-mail-bulk.me-2
+                        span Posts
+                    button.btn.btn-outline-danger(onClick=`location.href=\"/search/users/?searchInput=${searchValue}\"`)
+                        i.fas.fa-users.me-2
+                        span Users
+                    button.btn.btn-success(onClick=`location.href=\"/search/communities/?searchInput=${searchValue}\"`)
+                        i.fas.fa-school.me-2
+                        span Communities
+
+            else if mode === "u"
+                div.col.mt-2.mb-5
+                    button.btn.btn-outline-primary(onClick=`location.href=\"/search/?searchInput=${searchValue}\"`)
+                        i.fas.fa-mail-bulk.me-2
+                        span Posts
+                    button.btn.btn-danger(onClick=`location.href=\"/search/users/?searchInput=${searchValue}\"`)
+                        i.fas.fa-users.me-2
+                        span Users
+                    button.btn.btn-outline-success(onClick=`location.href=\"/search/communities/?searchInput=${searchValue}\"`)
+                        i.fas.fa-school.me-2
+                        span Communities
+
 

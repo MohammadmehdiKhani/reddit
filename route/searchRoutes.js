@@ -5,10 +5,11 @@ const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
 const {User, validateUser} = require("../database/schema/userSchema");
 const {Community, validateCommunity} = require("../database/schema/communitySchema");
+const { Post, validatePost } = require("../database/schema/postSchema");
 const debug = require("debug")("app:debug");
 const auth = require("../middleware/authMiddle");
 
-router.get("/", auth, async (req, res) => {
+router.get("/communities", auth, async (req, res) => {
 
     let search_value = req.query["searchInput"].trim()
     // console.log(search_value)
@@ -26,9 +27,10 @@ router.get("/", auth, async (req, res) => {
 
         return res.render("searchPage", {
             searchValue: search_value,
-            title: "Communities",
+            title: "Communities results for " + search_value,
             results: communities,
-            isEmpty: communities.length === 0
+            isEmpty: communities.length === 0,
+            mode: "c"
         })
 
     } catch (e) {
@@ -52,8 +54,44 @@ router.get("/users", auth, async (req, res) => {
         // );
         var users = await User.find({username: new RegExp(search_value, 'i')})
         return res.render("searchPage", {
-            searchValue: search_value, title: "Users", results: users, isEmpty: users.length === 0
+            searchValue: search_value, title: "Users results for " + search_value, results: users, isEmpty: users.length === 0, mode: "u"
         })
+    } catch (e) {
+        console.log(e)
+    }
+
+});
+
+
+router.get("/", auth, async (req, res) => {
+
+    let search_value = req.query["searchInput"].trim()
+    // console.log(search_value)
+
+    try {
+
+        var posts = await Post.find({
+            "$or": [{title: new RegExp(search_value, 'i')}, {body: new RegExp(search_value, 'i')}]
+        })
+
+        for (let i = 0; i < posts.length; i++){
+            let user = await User.findById(posts[i].postedBy._id)
+            posts[i].postedBy.username = user.username
+        }
+
+        for (let i = 0; i < posts.length; i++){
+            let community = await Community.findById(posts[i].community._id)
+            posts[i].community.name = community.name
+        }
+
+        return res.render("searchPage", {
+            searchValue: search_value,
+            title: "Posts results for " + search_value,
+            results: posts,
+            isEmpty: posts.length === 0,
+            mode: "p"
+        })
+
     } catch (e) {
         console.log(e)
     }
