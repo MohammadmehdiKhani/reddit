@@ -50,7 +50,7 @@ mixin createPostsTemplateInProfile(posts)
 
 mixin createPostsTemplateInCommunity(posts, isAdmin)
     each post in posts
-        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`, href=`/posts/post/${post._id}`)
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`)
             div.row.text-muted
                 small.col-4.mb-1= "Community: " + post.community.name
                 small.col-4= "Posted by: " + post.postedBy.username
