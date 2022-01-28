@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
 const { Post, validatePost } = require("../database/schema/postSchema");
 const { Community, validateCommunity } = require("../database/schema/communitySchema");
+const { Comment, validateComment } = require("../database/schema/commentSchema");
 const debug = require("debug")("app:debug");
 const auth = require("../middleware/authMiddle");
 
@@ -62,5 +63,31 @@ router.post("/remove", auth, async (req, res) => {
     res.status(200).send("Post deleted Successfully")
 
 });
+
+
+router.get("/post/:post_id", auth, async (req, res) => {
+    let post = await Post.findById(req.params.post_id)
+    return res.render("postPage", {post:post});
+})
+
+
+router.post("/post/send_comment", auth, async (req, res) => {
+
+    let commentToCreate = {
+        parentPost: req.body.postId,
+        body: req.body.commentBody,
+        commentedBy: req.session.user._id
+    };
+
+    let comment = await Comment.create(commentToCreate);
+
+    let post = await Post.findById(req.body.postId)
+    post.childComments.push(comment._id)
+    await post.save()
+    console.log("Success")
+    return res.status(200).send("Comment sent successfully");
+})
+
+
 
 module.exports = router;

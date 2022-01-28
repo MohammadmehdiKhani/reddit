@@ -281,6 +281,51 @@ $(document).on("click", ".btn-community-remove-admin", (event) => {
     })
 })
 
+
+
+
+
+
+
+$(document).on("click", ".send_comment", (event) => {
+    // let post_id = $(event.currentTarget).attr('post_id')
+    // let community_id = $(event.currentTarget).attr('community_id')
+
+    let input = $('#submitComment-body').val().trim()
+    let post_id = $(event.currentTarget).attr('post-id')
+
+
+    let title = $("#submitComment-body");
+    let titleErr = $("#submitComment-fdbErr");
+
+
+    if (!input || input.length > 1000) {
+        title.removeClass("is-valid").addClass("is-invalid");
+        titleErr.html("Comments cannot be empty nor too big!");
+    } else {
+        title.removeClass("is-invalid").addClass("is-valid");
+        titleErr.html("");
+
+        $.ajax({
+            url: `/posts/post/send_comment`,
+            type: "POST",
+            data: {
+                postId : post_id,
+                commentBody: input
+            },
+            success: function (res) {
+                alert(100)
+                // $(`#post-${post_id}`).fadeOut(500, function(){ $(this).remove();});
+            }
+        })
+
+    }
+
+
+});
+
+
+
 function timeDifference(current, previous) {
     var msPerMinute = 60 * 1000;
     var msPerHour = msPerMinute * 60;

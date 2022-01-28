@@ -1,6 +1,6 @@
 mixin createPostsTemplate(posts)
     each post in posts
-        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`)
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, href=`/posts/post/${post._id}`)
             div.row.text-muted
                 small.col-4.mb-1= "Community: " + post.community.name
                 small.col-4= "Posted by: " + post.postedBy.username
@@ -14,7 +14,7 @@ mixin createPostsTemplate(posts)
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-thumbs-down.me-2
                     span DisLike
-                button.btn.btn-outline-primary.col-2
+                button.btn.btn-outline-primary.col-2(href=`/posts/post/${post._id}`)
                     i.fas.fa-comment.me-2
                     span Comment
                 button.btn.btn-outline-primary.col-2
@@ -23,7 +23,7 @@ mixin createPostsTemplate(posts)
 
 mixin createPostsTemplateInProfile(posts)
     each post in posts
-        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`)
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`, href=`/posts/post/${post._id}`)
             div.row.text-muted
                 small.col-4.mb-1= "Community: " + post.community.name
                 small.col-4= "Posted by: " + post.postedBy.username
@@ -37,7 +37,7 @@ mixin createPostsTemplateInProfile(posts)
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-thumbs-down.me-2
                     span DisLike
-                button.btn.btn-outline-primary.col-2
+                button.btn.btn-outline-primary.col-2(href=`/posts/post/${post._id}`)
                     i.fas.fa-comment.me-2
                     span Comment
                 button.btn.btn-outline-primary.col-2
@@ -50,7 +50,7 @@ mixin createPostsTemplateInProfile(posts)
 
 mixin createPostsTemplateInCommunity(posts, isAdmin)
     each post in posts
-        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`)
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`, href=`/posts/post/${post._id}`)
             div.row.text-muted
                 small.col-4.mb-1= "Community: " + post.community.name
                 small.col-4= "Posted by: " + post.postedBy.username
@@ -64,7 +64,7 @@ mixin createPostsTemplateInCommunity(posts, isAdmin)
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-thumbs-down.me-2
                     span DisLike
-                button.btn.btn-outline-primary.col-2
+                button.btn.btn-outline-primary.col-2(href=`/posts/post/${post._id}`)
                     i.fas.fa-comment.me-2
                     span Comment
                 button.btn.btn-outline-primary.col-2

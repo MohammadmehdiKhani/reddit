@@ -1,0 +1,38 @@
+extends layout.pug
+include mixin
+
+block content
+
+    div.row.mt-3
+        div.col-11
+            h2.mb-1= "Post"
+            a.post.p-4.list-group-item.list-group-item-action.mb-5(data-id=`${post._id}`)
+                div.row.text-muted
+                    small.col-4.mb-1= "Community: " + post.community.name
+                    small.col-4= "Posted by: " + post.postedBy.username
+                    small.col-4= post.createdAt
+                div.mt-3.h5= post.title
+                div.mb-1= post.body
+                div.row.mt-4.justify-content-between
+                    button.like-btn.btn.col-3(class= post.isLiked?"btn-danger":"btn-outline-primary")
+                        i.fas.fa-thumbs-up.me-2
+                        span= "Like | " + post.likedBies.length
+                    button.btn.btn-outline-primary.col-2
+                        i.fas.fa-thumbs-down.me-2
+                        span DisLike
+                    button.btn.btn-primary.col-2
+                        i.fas.fa-comment.me-2
+                        span Comment
+                    button.btn.btn-outline-primary.col-2
+                        i.fas.fa-save.me-2
+                        span Save
+            form#submitComment-frm.mb-5(action= "/posts/post/send_comment", method= "post")
+                div.mb-3
+                    textarea#submitComment-body.form-control(name="body" value=body placeholder="For example today is fun" rows="10")
+                    div#submitComment-fdbErr.invalid-feedback
+                button#submitComment-btn.btn.btn-primary(type="submit", class= `send_comment`, post-id= `${post._id}`) Submit
+
+
+
+        div.col-3
+
