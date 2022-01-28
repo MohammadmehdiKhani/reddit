@@ -16,7 +16,7 @@ mixin createPostsTemplate(posts)
                     span= "Dislike | " + post.dislikedBies.length
                 button.btn.btn-outline-primary.col-2(onclick="location.href=\"/posts/post/"+`${post._id}\"`)
                     i.fas.fa-comment.me-2
-                    span Comment
+                    span= "Comment | " + post.childComments.length
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-save.me-2
                     span Save
@@ -39,7 +39,7 @@ mixin createPostsTemplateInProfile(posts)
                     span= "Dislike | " + post.dislikedBies.length
                 button.btn.btn-outline-primary.col-2(onclick="location.href=\"/posts/post/"+`${post._id}\"`)
                     i.fas.fa-comment.me-2
-                    span Comment
+                    span= "Comment | " + post.childComments.length
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-save.me-2
                     span Save
@@ -66,7 +66,7 @@ mixin createPostsTemplateInCommunity(posts, isAdmin)
                     span= "Dislike | " + post.dislikedBies.length
                 button.btn.btn-outline-primary.col-2(onclick="location.href=\"/posts/post/"+`${post._id}\"`)
                     i.fas.fa-comment.me-2
-                    span Comment
+                    span= "Comment | " + post.childComments.length
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-save.me-2
                     span Save
