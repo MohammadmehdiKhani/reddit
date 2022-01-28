@@ -8,15 +8,46 @@ mixin createPostsTemplate(posts)
             div.mt-3.h5= post.title   
             div.mb-1= post.body
             div.row.mt-4.justify-content-between
-                button.like-btn.btn.btn-outline-primary.col-3
+                button.like-btn.btn.btn-outline-primary.col-2
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
-                button.btn.btn-outline-primary.col-3
+                button.btn.btn-outline-primary.col-2
                     i.fas.fa-thumbs-down.me-2
                     span DisLike 
-                button.btn.btn-outline-primary.col-3
+                button.btn.btn-outline-primary.col-2
                     i.fas.fa-comment.me-2
                     span Comment
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-save.me-2
+                    span Save
+
+
+mixin createPostsTemplateInCommunity(posts, isAdmin)
+    each post in posts
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`)
+            div.row.text-muted
+                small.col-4.mb-1= "Community: " + post.community.name
+                small.col-4= "Posted by: " + post.postedBy.username
+                small.col-4= post.createdAt
+            div.mt-3.h5= post.title
+            div.mb-1= post.body
+            div.row.mt-4.justify-content-between
+                button.like-btn.btn.btn-outline-primary.col-2
+                    i.fas.fa-thumbs-up.me-2
+                    span= "Like | " + post.likedBies.length
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-thumbs-down.me-2
+                    span DisLike
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-comment.me-2
+                    span Comment
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-save.me-2
+                    span Save
+                if isAdmin
+                    button.btn.btn-outline-danger.col-2
+                        i.fas.fa-trash.me-2
+                        span Remove
 
 mixin createCommunityTemplate(communities)
     each community in communities

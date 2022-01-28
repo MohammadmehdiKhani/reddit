@@ -21,7 +21,7 @@ block content
 
             h2.mb-5= "Posts"
             div#posts-lgp.list-group
-                +createPostsTemplate(posts)
+                +createPostsTemplateInCommunity(posts, isAdmin)
 
         div.col-3
             label.p-2.bg-light.border(for="admins") Admins
