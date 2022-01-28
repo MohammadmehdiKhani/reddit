@@ -26,21 +26,27 @@ router.put("/like/:id", async (req, res) => {
     let post = await Post.findOne({ _id: postId });
     let user = await User.findOne({ _id: userId });
 
-    let isLikedByUser = _.findIndex(post.likedBies, u => u._id == userId);
+    let userIndex = _.findIndex(post.likedBies, u => u == userId);
+    let postIndex = _.findIndex(user.likedPosts, p => p == postId);
 
-    if (isLikedByUser > -1) {
-        post.likedBies = _.remove(post.likedBies, userId);
-        user.likedPosts = _.remove(user.likedPosts, postId);
+    let isLiked = false;
+    //user already liked this post
+    if (userIndex > -1) {
+        post.likedBies.splice(userIndex, 1);
+        user.likedPosts.splice(postIndex, 1)
+        isLiked = false;
     }
+    //user not liked post yet
     else {
         post.likedBies.push(userId);
         user.likedPosts.push(postId);
+        isLiked = true;
     }
 
     user.save();
     post.save();
 
-    return res.status(200).send({ liked: isLikedByUser, likeCount: post.likedBies.length });
+    return res.status(200).send({ liked: isLiked, likeCount: post.likedBies.length });
 });
 
 module.exports = router;
