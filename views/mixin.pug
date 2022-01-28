@@ -11,10 +11,10 @@ mixin createPostsTemplate(posts)
                 button.like-btn.btn.col-3(class= post.isLiked?"btn-danger":"btn-outline-primary")
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
-                button.btn.btn-outline-primary.col-2
+                button.dislike-btn.btn.col-3(class= post.isDisliked?"btn-warning":"btn-outline-primary")
                     i.fas.fa-thumbs-down.me-2
-                    span DisLike
-                button.btn.btn-outline-primary.col-2(href=`/posts/post/${post._id}`)
+                    span= "Dislike | " + post.dislikedBies.length
+                button.btn.btn-outline-primary.col-2
                     i.fas.fa-comment.me-2
                     span Comment
                 button.btn.btn-outline-primary.col-2
@@ -31,13 +31,13 @@ mixin createPostsTemplateInProfile(posts)
             div.mt-3.h5= post.title
             div.mb-1= post.body
             div.row.mt-4.justify-content-between
-                button.like-btn.btn.btn-outline-primary.col-2
+                button.like-btn.btn.col-2(class= post.isLiked?"btn-danger":"btn-outline-primary")
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
-                button.btn.btn-outline-primary.col-2
+                button.dislike-btn.btn.col-2(class= post.isDisliked?"btn-warning":"btn-outline-primary")
                     i.fas.fa-thumbs-down.me-2
-                    span DisLike
-                button.btn.btn-outline-primary.col-2(href=`/posts/post/${post._id}`)
+                    span= "Dislike | " + post.dislikedBies.length
+                button.btn.btn-outline-primary.col-2
                     i.fas.fa-comment.me-2
                     span Comment
                 button.btn.btn-outline-primary.col-2
@@ -58,13 +58,13 @@ mixin createPostsTemplateInCommunity(posts, isAdmin)
             div.mt-3.h5= post.title
             div.mb-1= post.body
             div.row.mt-4.justify-content-between
-                button.like-btn.btn.btn-outline-primary.col-2
+                button.like-btn.btn.col-2(class= post.isLiked?"btn-danger":"btn-outline-primary")
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
-                button.btn.btn-outline-primary.col-2
+                button.dislike-btn.btn.col-2(class= post.isDisliked?"btn-warning":"btn-outline-primary")
                     i.fas.fa-thumbs-down.me-2
-                    span DisLike
-                button.btn.btn-outline-primary.col-2(href=`/posts/post/${post._id}`)
+                    span= "Dislike | " + post.dislikedBies.length
+                button.btn.btn-outline-primary.col-2
                     i.fas.fa-comment.me-2
                     span Comment
                 button.btn.btn-outline-primary.col-2

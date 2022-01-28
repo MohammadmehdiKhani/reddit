@@ -5,9 +5,9 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt-nodejs");
 const _ = require("lodash");
 const debug = require("debug")("app:debug");
-const {Community, validateCommunity} = require("../database/schema/communitySchema");
-const {User, validateUser} = require("../database/schema/userSchema");
-const {Post, validatePost} = require("../database/schema/postSchema");
+const { Community, validateCommunity } = require("../database/schema/communitySchema");
+const { User, validateUser } = require("../database/schema/userSchema");
+const { Post, validatePost } = require("../database/schema/postSchema");
 const auth = require("../middleware/authMiddle");
 
 router.get("/create", auth, async (req, res) => {
@@ -25,10 +25,31 @@ router.get("/community/:community_id", auth, async (req, res) => {
 
     let isAdmin = false
 
+    let userId = req.session.user._id;
+
     for (let i = 0; i < community.postIds.length; i++) {
         let post = await Post.findById(community.postIds[i])
         post.postedBy = await User.findById(post.postedBy)
         post.community = await Community.findById(post.community)
+
+        let isLiked = false;
+        let isDisliked = false;
+
+        for (const u of post.likedBies) {
+            if (u == userId) {
+                isLiked = true;
+            }
+        }
+
+        for (const u of post.dislikedBies) {
+            if (u == userId) {
+                isDisliked = true;
+            }
+        }
+
+        post.isLiked = isLiked;
+        post.isDisliked = isDisliked;
+
         posts.push(post)
     }
 
@@ -42,18 +63,18 @@ router.get("/community/:community_id", auth, async (req, res) => {
         }
     }
     // console.log(isAdmin)
-    return res.render("communityPage", {posts: posts, community: community, admins: admins, isAdmin: isAdmin});
+    return res.render("communityPage", { posts: posts, community: community, admins: admins, isAdmin: isAdmin });
 });
 
 
 router.post("/community/:community_id/unjoin", auth, async (req, res) => {
     try {
         let current_user = await User.findById(req.session.user._id)
-        current_user.memberOfIds = current_user.memberOfIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.params.community_id)))
+        current_user.memberOfIds = current_user.memberOfIds.filter(e => !e.equals(mongoose.Types.ObjectId(req.params.community_id)))
         await current_user.save()
 
         let current_community = await Community.findById(req.params.community_id)
-        current_community.memberIds = current_community.memberIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.session.user._id)))
+        current_community.memberIds = current_community.memberIds.filter(e => !e.equals(mongoose.Types.ObjectId(req.session.user._id)))
         await current_community.save()
 
         res.status(200).send("UnJoined Successfully")
@@ -137,11 +158,11 @@ router.post("/community/make_admin", auth, async (req, res) => {
 router.post("/community/revoke_admin", auth, async (req, res) => {
     try {
         let current_user = await User.findById(req.body.user_id)
-        current_user.adminOfIds = current_user.adminOfIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.body.community_id)))
+        current_user.adminOfIds = current_user.adminOfIds.filter(e => !e.equals(mongoose.Types.ObjectId(req.body.community_id)))
         await current_user.save()
 
         let current_community = await Community.findById(req.body.community_id)
-        current_community.adminIds = current_community.adminIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.body.user_id)))
+        current_community.adminIds = current_community.adminIds.filter(e => !e.equals(mongoose.Types.ObjectId(req.body.user_id)))
         await current_community.save()
 
         res.status(200).send("Revoke admin Successfully")
@@ -166,7 +187,7 @@ router.post("/create", auth, async (req, res) => {
         return res.render("createCommunity", request);
     }
 
-    let findedUser = await User.findOne({_id: req.session.user._id});
+    let findedUser = await User.findOne({ _id: req.session.user._id });
 
     let communityToCreate = {
         name: request.name,
