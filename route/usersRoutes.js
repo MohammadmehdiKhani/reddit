@@ -20,27 +20,37 @@ router.get("/user/:user_id", auth, async (req, res) => {
     let communities_sub = []
     let communities_admin = []
 
-    for (let i = 0; i < user.adminOfIds.length; i++){
+    for (let i = 0; i < user.adminOfIds.length; i++) {
         let community = await Community.findById(user.adminOfIds[i]);
         communities_admin.push(community);
     }
 
-    for (let i = 0; i < user.memberOfIds.length; i++){
+    for (let i = 0; i < user.memberOfIds.length; i++) {
         let community = await Community.findById(user.memberOfIds[i]);
         communities_sub.push(community);
     }
 
 
-    posts = await Post.find({postedBy: user._id})
+    posts = await Post.find({ postedBy: user._id })
+    let userId = req.session.user._id;
 
-    for (let i = 0; i < posts.length; i++){
+    for (let i = 0; i < posts.length; i++) {
         posts[i].postedBy = await User.findById(posts[i].postedBy)
         posts[i].community = await Community.findById(posts[i].community)
+
+        let isLiked = false;
+
+        for (const u of posts[i].likedBies) {
+            if (u == userId) {
+                isLiked = true;
+            }
+        }
+        posts[i].isLiked = isLiked;
     }
 
     let isThisMe = (req.session.user.username === user.username)
 
-    return res.render("profilePage", {posts: posts, user: user, communities_sub:communities_sub, communities_admin: communities_admin, isThisMe: isThisMe});
+    return res.render("profilePage", { posts: posts, user: user, communities_sub: communities_sub, communities_admin: communities_admin, isThisMe: isThisMe });
 
 
 });

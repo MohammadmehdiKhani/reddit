@@ -31,7 +31,7 @@ mixin createPostsTemplateInProfile(posts)
             div.mt-3.h5= post.title
             div.mb-1= post.body
             div.row.mt-4.justify-content-between
-                button.like-btn.btn.btn-outline-primary.col-2
+                button.like-btn.btn.col-2(class= post.isLiked?"btn-danger":"btn-outline-primary")
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
                 button.btn.btn-outline-primary.col-2
