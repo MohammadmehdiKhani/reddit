@@ -49,4 +49,35 @@ router.put("/like/:id", async (req, res) => {
     return res.status(200).send({ liked: isLiked, likeCount: post.likedBies.length });
 });
 
+router.put("/dislike/:id", async (req, res) => {
+
+    let postId = req.params.id;
+    let userId = req.session.user._id;
+
+    let post = await Post.findOne({ _id: postId });
+    let user = await User.findOne({ _id: userId });
+
+    let userIndex = _.findIndex(post.dislikedBies, u => u == userId);
+    let postIndex = _.findIndex(user.dislikedPosts, p => p == postId);
+
+    let isDisliked = false;
+    //user already liked this post
+    if (userIndex > -1) {
+        post.dislikedBies.splice(userIndex, 1);
+        user.dislikedPosts.splice(postIndex, 1)
+        isDisliked = false;
+    }
+    //user not liked post yet
+    else {
+        post.dislikedBies.push(userId);
+        user.dislikedPosts.push(postId);
+        isDisliked = true;
+    }
+
+    user.save();
+    post.save();
+
+    return res.status(200).send({ disliked: isDisliked, dislikeCount: post.dislikedBies.length });
+});
+
 module.exports = router;
