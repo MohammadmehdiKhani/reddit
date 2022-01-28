@@ -33,13 +33,22 @@ router.get("/community/:community_id", auth, async (req, res) => {
         post.community = await Community.findById(post.community)
 
         let isLiked = false;
+        let isDisliked = false;
 
         for (const u of post.likedBies) {
             if (u == userId) {
                 isLiked = true;
             }
         }
+
+        for (const u of post.dislikedBies) {
+            if (u == userId) {
+                isDisliked = true;
+            }
+        }
+
         post.isLiked = isLiked;
+        post.isDisliked = isDisliked;
 
         posts.push(post)
     }

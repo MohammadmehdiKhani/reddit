@@ -49,13 +49,22 @@ router.get("/", auth, async (req, res) => {
     for (const p of posts) {
 
         let isLiked = false;
+        let isDisliked = false;
 
         for (const u of p.likedBies) {
             if (u == userId) {
                 isLiked = true;
             }
         }
+
+        for (const u of p.dislikedBies) {
+            if (u == userId) {
+                isDisliked = true;
+            }
+        }
+
         p.isLiked = isLiked;
+        p.isDisliked = isDisliked;
     }
 
     let hotCommunities = await Community.aggregate([

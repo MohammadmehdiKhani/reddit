@@ -97,6 +97,28 @@ $(document).on("click", ".like-btn", (event) => {
     });
 })
 
+$(document).on("click", ".dislike-btn", (event) => {
+    let element = $(event.currentTarget);
+    let postId = getPostIdFromElement(element);
+    console.log("before ajax")
+    $.ajax({
+        url: `/api/posts/dislike/${postId}`,
+        data: {},
+        type: "PUT",
+        success: result => {
+            console.log(result)
+            if (result.disliked) {
+                element.removeClass("btn-outline-primary").addClass("btn-warning");
+            }
+            else {
+                element.removeClass("btn-warning").addClass("btn-outline-primary");
+            }
+
+            element.children("span").html(`dislike | ${result.dislikeCount}`);
+        }
+    });
+})
+
 function getPostIdFromElement(element) {
     let isRoot = element.hasClass("post");
     let rootElement = isRoot == true ? element : element.closest(".post");
@@ -210,11 +232,11 @@ $(document).on("click", ".btn-remove-post", (event) => {
         url: `/posts/remove`,
         type: "POST",
         data: {
-          postId : post_id,
+            postId: post_id,
             communityId: community_id
         },
         success: function (res) {
-            $(`#post-${post_id}`).fadeOut(500, function(){ $(this).remove();});
+            $(`#post-${post_id}`).fadeOut(500, function () { $(this).remove(); });
         }
     })
 
@@ -239,15 +261,15 @@ $(document).on("click", ".btn-community-add-admin", (event) => {
             user_id: user_id
         },
         success: function (res) {
-            $("#btn-"+user_id).text("Revoke admin")
-            $("#btn-"+user_id).removeClass("btn-success").addClass("btn-danger")
-            $("#btn-"+user_id).removeClass("btn-community-add-admin").addClass("btn-community-remove-admin")
+            $("#btn-" + user_id).text("Revoke admin")
+            $("#btn-" + user_id).removeClass("btn-success").addClass("btn-danger")
+            $("#btn-" + user_id).removeClass("btn-community-add-admin").addClass("btn-community-remove-admin")
 
 
-            let parent_div= document.getElementById('myCommunities');
+            let parent_div = document.getElementById('myCommunities');
             let a = document.createElement('a');
             a.className = "list-group-item list-group-item-action"
-            a.id = "admin-list-dynamic-"+user_id
+            a.id = "admin-list-dynamic-" + user_id
             a.text = user_name
             parent_div.appendChild(a)
             // $("#admin-list-dynamic-"+user_id).text("hello")
@@ -271,9 +293,9 @@ $(document).on("click", ".btn-community-remove-admin", (event) => {
             user_id: user_id
         },
         success: function (res) {
-            $("#btn-"+user_id).text("Make admin")
-            $("#btn-"+user_id).removeClass("btn-danger").addClass("btn-success")
-            $("#btn-"+user_id).removeClass("btn-community-remove-admin").addClass("btn-community-add-admin")
+            $("#btn-" + user_id).text("Make admin")
+            $("#btn-" + user_id).removeClass("btn-danger").addClass("btn-success")
+            $("#btn-" + user_id).removeClass("btn-community-remove-admin").addClass("btn-community-add-admin")
 
             $(`#admin-list-dynamic-${user_id}`).remove()
 

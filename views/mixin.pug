@@ -11,9 +11,9 @@ mixin createPostsTemplate(posts)
                 button.like-btn.btn.col-3(class= post.isLiked?"btn-danger":"btn-outline-primary")
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
-                button.btn.btn-outline-primary.col-2
+                button.dislike-btn.btn.col-3(class= post.isDisliked?"btn-warning":"btn-outline-primary")
                     i.fas.fa-thumbs-down.me-2
-                    span DisLike
+                    span= "Dislike | " + post.dislikedBies.length
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-comment.me-2
                     span Comment
@@ -34,9 +34,9 @@ mixin createPostsTemplateInProfile(posts)
                 button.like-btn.btn.col-2(class= post.isLiked?"btn-danger":"btn-outline-primary")
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
-                button.btn.btn-outline-primary.col-2
+                button.dislike-btn.btn.col-2(class= post.isDisliked?"btn-warning":"btn-outline-primary")
                     i.fas.fa-thumbs-down.me-2
-                    span DisLike
+                    span= "Dislike | " + post.dislikedBies.length
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-comment.me-2
                     span Comment
@@ -61,9 +61,9 @@ mixin createPostsTemplateInCommunity(posts, isAdmin)
                 button.like-btn.btn.col-2(class= post.isLiked?"btn-danger":"btn-outline-primary")
                     i.fas.fa-thumbs-up.me-2
                     span= "Like | " + post.likedBies.length
-                button.btn.btn-outline-primary.col-2
+                button.dislike-btn.btn.col-2(class= post.isDisliked?"btn-warning":"btn-outline-primary")
                     i.fas.fa-thumbs-down.me-2
-                    span DisLike
+                    span= "Dislike | " + post.dislikedBies.length
                 button.btn.btn-outline-primary.col-2
                     i.fas.fa-comment.me-2
                     span Comment

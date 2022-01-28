@@ -39,13 +39,20 @@ router.get("/user/:user_id", auth, async (req, res) => {
         posts[i].community = await Community.findById(posts[i].community)
 
         let isLiked = false;
+        let isDisliked = false;
 
         for (const u of posts[i].likedBies) {
             if (u == userId) {
                 isLiked = true;
             }
         }
-        posts[i].isLiked = isLiked;
+
+        for (const u of posts[i].dislikedBies) {
+            if (u == userId) {
+                isDisliked = true;
+            }
+        }
+        posts[i].isDisliked = isDisliked;
     }
 
     let isThisMe = (req.session.user.username === user.username)
