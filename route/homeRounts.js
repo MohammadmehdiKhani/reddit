@@ -70,7 +70,7 @@ router.get("/", auth, async (req, res) => {
         { $limit: 5 }
     ]);
 
-    return res.render("home", { hotCommunities: hotCommunities, posts: posts });
+    return res.render("home", { hotCommunities: hotCommunities, posts: posts, mode: "t" });
 });
 
 
@@ -129,7 +129,7 @@ router.get("/likes", auth, async (req, res) => {
 
     // console.log(posts)
 
-    return res.render("home", { hotCommunities: hotCommunities, posts: posts });
+    return res.render("home", { hotCommunities: hotCommunities, posts: posts, mode: "l" });
 });
 
 
