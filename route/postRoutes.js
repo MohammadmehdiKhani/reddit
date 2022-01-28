@@ -7,6 +7,7 @@ const _ = require("lodash");
 const { Post, validatePost } = require("../database/schema/postSchema");
 const { Community, validateCommunity } = require("../database/schema/communitySchema");
 const { Comment, validateComment } = require("../database/schema/commentSchema");
+const { User, validateUser } = require("../database/schema/userSchema");
 const debug = require("debug")("app:debug");
 const auth = require("../middleware/authMiddle");
 
@@ -67,7 +68,21 @@ router.post("/remove", auth, async (req, res) => {
 
 router.get("/post/:post_id", auth, async (req, res) => {
     let post = await Post.findById(req.params.post_id)
-    return res.render("postPage", {post:post});
+
+    let post_user = await User.findById(post.postedBy)
+    let post_com = await Community.findById(post.community)
+
+    post.postedBy.username = post_user.username
+    post.community.name = post_com.name
+
+    let comments = await  Comment.find({parentPost: req.params.post_id}).sort({createdAt: -1})
+
+    for (let i = 0; i < comments.length; i++){
+        let user = await User.findById(comments[i].commentedBy)
+        comments[i].commentedBy.username = user.username;
+    }
+
+    return res.status(200).render("postPage", {post:post, comments: comments});
 })
 
 
@@ -82,9 +97,10 @@ router.post("/post/send_comment", auth, async (req, res) => {
     let comment = await Comment.create(commentToCreate);
 
     let post = await Post.findById(req.body.postId)
+    // console.log("HERR", post)
     post.childComments.push(comment._id)
     await post.save()
-    console.log("Success")
+
     return res.status(200).send("Comment sent successfully");
 })
 

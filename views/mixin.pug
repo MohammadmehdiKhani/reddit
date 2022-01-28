@@ -112,3 +112,22 @@ mixin createAdminsTemplate(users)
         a.list-group-item.list-group-item-action(onClick="location.href=\"/users/user/"+user._id+"\"", id=`admin-list-dynamic-${user._id}`)= user.username
 
 
+
+mixin createCommentTemplate(comments)
+    each comment in comments
+        a.post.p-4.list-group-item.list-group-item-action()
+            div.row.text-muted
+                small.col-4= "Commented by: " + comment.commentedBy.username
+                small.col-4= comment.createdAt
+            div.mb-1= comment.body
+            div.row.mt-4.justify-content-between
+                button.like-btn.btn.col-3(class= post.isLiked?"btn-danger":"btn-outline-primary")
+                    i.fas.fa-thumbs-up.me-2
+                    span= "Like | " + comment.likedBies.length
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-thumbs-down.me-2
+                    span DisLike
+                button.btn.btn-outline-primary.col-2(href=`/posts/post/${post._id}`)
+                    i.fas.fa-reply.me-2
+                    span Reply
+

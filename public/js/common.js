@@ -287,12 +287,17 @@ $(document).on("click", ".btn-community-remove-admin", (event) => {
 
 
 
-$(document).on("click", ".send_comment", (event) => {
+$(document).on("submit", "#submitComment-frm", (event) => {
+
+    event.preventDefault()
+
     // let post_id = $(event.currentTarget).attr('post_id')
     // let community_id = $(event.currentTarget).attr('community_id')
 
     let input = $('#submitComment-body').val().trim()
     let post_id = $(event.currentTarget).attr('post-id')
+
+    console.log(post_id)
 
 
     let title = $("#submitComment-body");
@@ -314,8 +319,21 @@ $(document).on("click", ".send_comment", (event) => {
                 commentBody: input
             },
             success: function (res) {
-                alert(100)
-                // $(`#post-${post_id}`).fadeOut(500, function(){ $(this).remove();});
+                alert("Comment added!")
+                let parent_div= document.getElementById('comments-lgp');
+
+                let a = document.createElement('p')
+                a.innerHTML = "New comment added!"
+
+                parent_div.insertBefore(a, parent_div.firstChild)
+
+                $.ajax({
+                    url: `/posts/post/${post_id}`,
+                    type: "GET",
+                    success: function (res) {
+                        location.reload()
+                    }
+                })
             }
         })
 

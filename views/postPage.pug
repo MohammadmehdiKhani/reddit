@@ -26,11 +26,15 @@ block content
                     button.btn.btn-outline-primary.col-2
                         i.fas.fa-save.me-2
                         span Save
-            form#submitComment-frm.mb-5(action= "/posts/post/send_comment", method= "post")
+            form#submitComment-frm.mb-5(action= "/posts/post/send_comment", method= "post", post-id= `${post._id}`)
                 div.mb-3
                     textarea#submitComment-body.form-control(name="body" value=body placeholder="For example today is fun" rows="10")
                     div#submitComment-fdbErr.invalid-feedback
                 button#submitComment-btn.btn.btn-primary(type="submit", class= `send_comment`, post-id= `${post._id}`) Submit
+
+            h2.mb-5= "Comments"
+            div#comments-lgp.list-group
+                +createCommentTemplate(comments)
 
 
 
