@@ -21,10 +21,36 @@ mixin createPostsTemplate(posts)
                     i.fas.fa-save.me-2
                     span Save
 
+mixin createPostsTemplateInProfile(posts)
+    each post in posts
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`)
+            div.row.text-muted
+                small.col-4.mb-1= "Community: " + post.community.name
+                small.col-4= "Posted by: " + post.postedBy.username
+                small.col-4= post.createdAt
+            div.mt-3.h5= post.title
+            div.mb-1= post.body
+            div.row.mt-4.justify-content-between
+                button.like-btn.btn.btn-outline-primary.col-2
+                    i.fas.fa-thumbs-up.me-2
+                    span= "Like | " + post.likedBies.length
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-thumbs-down.me-2
+                    span DisLike
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-comment.me-2
+                    span Comment
+                button.btn.btn-outline-primary.col-2
+                    i.fas.fa-save.me-2
+                    span Save
+                button.btn.btn-outline-danger.col-2(id= `btn-remove-${post._id}`, class= 'btn-remove-post', post_id= `${post._id}`, community_id = `${post.community._id}`)
+                    i.fas.fa-trash.me-2
+                    span Remove
+
 
 mixin createPostsTemplateInCommunity(posts, isAdmin)
     each post in posts
-        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`)
+        a.post.p-4.list-group-item.list-group-item-action(data-id=`${post._id}`, id=`post-${post._id}`)
             div.row.text-muted
                 small.col-4.mb-1= "Community: " + post.community.name
                 small.col-4= "Posted by: " + post.postedBy.username
@@ -45,7 +71,7 @@ mixin createPostsTemplateInCommunity(posts, isAdmin)
                     i.fas.fa-save.me-2
                     span Save
                 if isAdmin
-                    button.btn.btn-outline-danger.col-2
+                    button.btn.btn-outline-danger.col-2(id= `btn-remove-${post._id}`, class= 'btn-remove-post', post_id= `${post._id}`, community_id = `${post.community._id}`)
                         i.fas.fa-trash.me-2
                         span Remove
 

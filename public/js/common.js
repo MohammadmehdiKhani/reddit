@@ -202,6 +202,23 @@ $(document).on("click", ".btn-unjoin-community", (event) => {
 })
 
 
+$(document).on("click", ".btn-remove-post", (event) => {
+    let post_id = $(event.currentTarget).attr('post_id')
+    let community_id = $(event.currentTarget).attr('community_id')
+
+    $.ajax({
+        url: `/posts/remove`,
+        type: "POST",
+        data: {
+          postId : post_id,
+            communityId: community_id
+        },
+        success: function (res) {
+            $(`#post-${post_id}`).fadeOut(500, function(){ $(this).remove();});
+        }
+    })
+
+});
 
 
 

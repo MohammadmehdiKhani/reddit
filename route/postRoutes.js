@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 const Joi = require("joi");
 const bcrypt = require("bcrypt-nodejs");
@@ -47,6 +48,19 @@ router.post("/create", auth, async (req, res) => {
     await community.save();
 
     return res.redirect("/");
+});
+
+
+router.post("/remove", auth, async (req, res) => {
+
+    let current_community = await Community.findById(req.body.communityId)
+    current_community.postIds = current_community.postIds.filter( e => !e.equals(mongoose.Types.ObjectId(req.body.postId)))
+    await current_community.save()
+
+    await Post.findByIdAndRemove(req.body.postId)
+
+    res.status(200).send("Post deleted Successfully")
+
 });
 
 module.exports = router;

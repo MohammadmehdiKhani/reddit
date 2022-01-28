@@ -10,7 +10,7 @@ block content
                 div.mt-2.mb-5.h4=  user.username
             h2.mb-5= "Posts"
             div#posts-lgp.list-group
-                +createPostsTemplate(posts)
+                +createPostsTemplateInProfile(posts)
 
         div.col-3
             if isThisMe
