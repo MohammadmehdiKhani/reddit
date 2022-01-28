@@ -80,8 +80,6 @@ $(document).on("click", ".like-btn", (event) => {
     let element = $(event.currentTarget);
     let postId = getPostIdFromElement(element);
 
-
-
     $.ajax({
         url: `/api/posts/like/${postId}`,
         data: {},
@@ -93,6 +91,8 @@ $(document).on("click", ".like-btn", (event) => {
             else {
                 element.removeClass("btn-danger").addClass("btn-outline-primary");
             }
+
+            element.children("span").html(`Like | ${result.likeCount}`);
         }
     });
 })
@@ -104,7 +104,7 @@ function getPostIdFromElement(element) {
     return postId;
 }
 
-$(document).ready( function() {
+$(document).ready(function () {
     $('#com-add-admin-dialog').hide()
     $('#com-change-name-dialog').hide()
     $('#com-change-desc-dialog').hide()
@@ -128,7 +128,7 @@ $(document).ready( function() {
 
     $('#com-change-name').click(function () {
 
-    if ($("#com-change-name").hasClass("btn-outline-primary")) {
+        if ($("#com-change-name").hasClass("btn-outline-primary")) {
             $('#com-change-name-dialog').show()
             $('#com-add-admin-dialog').hide()
             $('#com-change-desc-dialog').hide()
