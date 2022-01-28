@@ -32,13 +32,11 @@ mixin createWideCommunityTemplate(communities)
                 small.col-4.mb-1= "Created by: " + community.adminIds[0].username
             div.row.text-black
                 div.mb-5= "Description: " + community.description
-            div.row.mt-4.justify-content-between
-                button.btn.btn-outline-primary.col-5(onClick="location.href=\"/communities/community/"+community._id+"\"")
+            div.row.mt-4
+                button.btn.btn-outline-primary(onClick="location.href=\"/communities/community/"+community._id+"\"")
                     i.fas.fa-eye.me-2
                     span View
-                button.btn.btn-outline-primary.col-5
-                    i.fas.fa-plus-circle.me-2
-                    span Join
+
 
 
 mixin createUsersTemplate(users)

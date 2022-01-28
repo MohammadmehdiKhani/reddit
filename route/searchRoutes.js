@@ -60,4 +60,45 @@ router.get("/users", auth, async (req, res) => {
 });
 
 
+router.post("/users-admins/:community_id", auth, async (req, res) => {
+
+    // console.log(req)
+    //
+    // console.log(req.params.community_id)
+
+    var community = await Community.findById(req.params.community_id)
+
+    let search_value = req.body["searchInput"].trim()
+
+
+    try {
+        var users = await User.find({username: new RegExp(search_value, 'i')})
+
+        //Weird Solution :|
+        users = JSON.parse(JSON.stringify(users))
+
+        for (let i = 0; i < users.length; i++){
+
+            if (community.adminIds[0].equals(users[i]._id)){
+                users[i].adminState = "isOwner"
+            }
+            else if (community.adminIds.slice(1).includes(users[i]._id)) {
+                users[i].adminState = "isAdmin"
+            } else {
+                users[i].adminState = "isNotAdmin"
+            }
+        }
+
+        // console.log(users[0].adminState)
+        // console.log(users)
+
+        return res.status(200).json(users)
+
+    } catch (e) {
+        console.log(e)
+    }
+
+});
+
+
 module.exports = router;

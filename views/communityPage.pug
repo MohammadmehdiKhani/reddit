@@ -41,10 +41,16 @@ block content
                         i.fas.fa-edit.me-2
                         span Change Description
                 div#com-add-admin-dialog
-                    span Dialog1
+                    form#addAdmin-frm(action=`/search/users-admins/${community._id}`, method="post")
+                        div.col.mt-2.mb-2
+                            label.form-label New admin
+                            input#new-admin-ipt.form-control(type="text" name="searchInput" placeholder="Search for username...")
+                        button#new-admin-btn.btn.btn-primary.mb-5(type="submit") Search
+                        div#search-result
+
                 div#com-change-name-dialog
                     form#changeCommunityName-frm(action=`/communities/community/${community._id}/changeName`, method="post")
-                        div.mb-5
+                        div.mb-2
                             label.form-label New community name
                             input#new-com-name-ipt.form-control(type="text" name="newComName" value=community.name)
                             div#new-com-name-fdbErr.invalid-feedback
@@ -52,9 +58,9 @@ block content
                         button#new-com-name-btn.btn.btn-primary(type="submit") Apply changes
                 div#com-change-desc-dialog
                     form#changeCommunityDesc-frm(action=`/communities/community/${community._id}/changeDesc`, method="post")
-                        div.mb-5
+                        div.mb-2
                             label.form-label New community description
-                            textarea#new-com-desc-ipt.form-control(type="text" name="newComDesc" value=community.name)
+                            textarea#new-com-desc-ipt.form-control(type="text" name="newComDesc" value=community.description)
                             div#new-com-desc-fdbErr.invalid-feedback
                             div#new-com-desc-fdbSuc.valid-feedback
                         button#new-com-name-btn.btn.btn-primary(type="submit") Apply changes
