@@ -7,7 +7,7 @@ block content
             div.mb-3.bg-danger #{error}
             form#createUser-frm(action="/users/create" method="post" novalidate)
                 .mb-3
-                    label.form-label(for="username-ipt") username
+                    label.form-label(for="username-ipt") Username
                     input#username-ipt.form-control(type="username" name="username")
                     div#username-fdbErr.invalid-feedback
                 .mb-3
